@@ -1,0 +1,58 @@
+<!-- CREATE IMAGE STEP 3-->
+<div class="admin-step">
+    <div class="create-img-progress-bar">
+        <div class="create-img-step">
+          <div class="create-img-step-number">1</div>
+          <div class="create-img-step-text">Save OS Image:<br/>Insert USB Flash Drive</div>
+        </div>
+        <div class="create-img-step active">
+            <div class="create-img-step-number">2</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Select USB Flash Drive</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">3</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Review Configuration</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">4</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Write OS Image to USB Flash Drive</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Save OS Image: Select USB Flash Drive</h1>
+        </div>
+    </div><!-- /.row -->
+    <div class="row">
+        <div class="col-md-12 description"><b>Warning: All files on the USB flash drive will be deleted.</b></div>
+    </div><!-- .row -->
+    <div class="blue-modal-text left-align">Selected Device:</div>
+    <div class="row">
+        <div class="col-md-8 selected-device-info-block">
+            <div class="selected-device-txt">
+                <span>Device Name:</span>
+                <span class="selected-device-info">{{selected_device.Name}}</span>
+            </div>
+            <div class="selected-device-txt">
+                <span>Device type:</span>
+                <span class="selected-device-info">{{selected_device.Device}}</span>
+            </div>
+            <div class="selected-device-txt">
+                <span>Size:</span>
+                <span class="selected-device-info">{{selected_device.Size}}</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="usb-inserted create-image-img"></div>
+        </div>
+    </div>
+    <div class="row admin-modal-btn-row">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal2()">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage3()" ng-class="{disabled: !connected}">Continue</div>
+        </div>
+    </div>
+</div><!-- /.admin-step -->
+

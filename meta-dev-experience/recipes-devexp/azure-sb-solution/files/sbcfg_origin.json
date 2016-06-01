@@ -1,0 +1,3 @@
+{
+    "sbConnectionStr" : "Endpoint=sb://mi31test.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=clgtPLAoupiaFGWElRh6tFdWky6WgjgXhIEuzJTmY1k="
+}

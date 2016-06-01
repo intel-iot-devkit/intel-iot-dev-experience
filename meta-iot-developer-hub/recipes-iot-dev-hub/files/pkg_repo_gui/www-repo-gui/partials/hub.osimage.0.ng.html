@@ -1,0 +1,39 @@
+  
+          <!-- CREATE IMAGE STEP 1-->
+
+          <div class="admin-step">
+            <div class="create-img-progress-bar">
+              <div class="create-img-step active">
+                <div class="create-img-step-number">1</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Insert USB Flash Drive</div>
+              </div>
+              <div class="create-img-step">
+                <div class="create-img-step-number">2</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Select USB Flash Drive</div>
+              </div>
+              <div class="create-img-step">
+                <div class="create-img-step-number">3</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Review Configuration</div>
+              </div>
+              <div class="create-img-step">
+                <div class="create-img-step-number">4</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Write OS Image To USB Flash Drive</div>
+              </div>
+            </div>
+            <h1>Save OS Image: Insert USB Flash Drive</h1>
+            <div class="description">
+              Insert a 8GB or larger USB flash drive into the development gateway.<br/>
+              <b>Warning: All files on the USB flash drive will be deleted</b>
+            </div>
+            <div class="col-md-12">
+              <div class="insert-usb create-image-img"></div>
+            </div>
+            <div class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal()">Cancel</div>
+              </div>
+              <div class="col-md-6">
+                <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage1()" ng-class="{disabled: !connected}">Continue</div>
+              </div>
+            </div><!-- .row -->
+          </div><!-- /.admin-step -->

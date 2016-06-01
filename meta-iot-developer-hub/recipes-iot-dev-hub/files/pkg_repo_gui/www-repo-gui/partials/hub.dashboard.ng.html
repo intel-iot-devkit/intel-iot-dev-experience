@@ -1,0 +1,154 @@
+    <!-- Device & Sensor Data -->
+    <div style="width:100%;">
+      <div class="device-sensors" ng-class="{'device-sensors-collapsed':!isSensorPanelExpanded}">
+
+        <!--<perfect-scrollbar ps-mouse-over ng-class="{'device-scrollable-collapsed':!isSensorPanelExpanded}" class="sensor-container-scroll" wheel-propagation="true" wheel-speed="10" min-scrollbar-length="10">-->
+        <div ng-class="{'device-scrollable-collapsed':!isSensorPanelExpanded}" class="sensor-container">
+            <!-- Device -->
+            <div class="device-widget" ng-class="{'device-widget-collapsed':!isSensorPanelExpanded}">
+                <div class="product-name">
+                    <img ng-if="connected" src="/images/device-connected.svg" class="device-data-icon">
+                    <img ng-if="!connected" src="/images/device-disconnected.svg" class="device-data-icon">
+                    <h2>{{device["host_name"]}}</h2>
+                    <!--<img src="images/dropdown.svg">-->
+                    <div ng-show="isSensorPanelExpanded">
+                        <span ng-if="connected">Connected</span>
+                        <span ng-if="!connected" class="device-widget-not-connected">Disconnected</span>
+                    </div>
+                </div><!-- /product-name -->
+                <perfect-scrollbar ps-mouse-over class="product-info" ng-show="isSensorPanelExpanded" wheel-propagation="false" wheel-speed="10" suppress-scroll-x="true">
+                        <table>
+                            <tr><!-- Label --><td class="product-info-table-label">Host name</td><!-- Data --><td>{{device["host_name"]}}</td></tr>
+                            <tr><!-- Label --><td class="product-info-table-label">Model</td><!-- Data --><td>{{device["model"]}}</td></tr>
+                            <tr><!-- Label --><td class="product-info-table-label">Version</td><!-- Data --><td>{{device["system_version"]}}</td></tr>
+                            <tr ng-repeat="(key,value) in device['netinterface']"><!-- Label --><td class="product-info-table-label">{{key}}</td><!-- Data --><td> {{value}}</td></tr>
+                            <tr><!-- Label --><td class="product-info-table-label">WiFi SSID</td><!-- Data --><td>{{device["ssid"]}}</td></tr>
+                            <tr><!-- Label --><td class="product-info-table-label">Time</td><!-- Data --><td>{{device["time"]}}</td></tr>
+                            <tr><!-- Label --><td class="product-info-table-label">Uptime</td><!-- Data --><td><timer start-time="deviceUpSince">{{days}}d {{hours}}h {{minutes}}m</timer></td></tr>
+                            <tr><!-- Label --><td class="product-info-table-label">OS Drive</td><!-- Data --><td>{{device["disk"]["free"]}}/{{device["disk"]["total"]}}</td></tr>
+                            <tr><!-- Label --><td class="product-info-table-label">DevHub Version</td><!-- Data --><td>{{device["devhub_version"]}}</td></tr>
+                        </table>
+                </perfect-scrollbar>
+            </div><!-- /device-widget -->
+            
+            <!-- Sensors -->
+            <hub-dashboard-sensor ng-repeat="sensor in sensors_charted | orderBy : 'priority'"></hub-dashboard-sensor>
+        </div>
+        <!--</perfect-scrollbar>--> 
+
+      </div><!-- End Sensors Div -->
+    </div>
+    
+    <div class="container">
+      <div class="row" id="show-hide-dashboard" ng-click="dashboardToggle()">
+        <div class="col-sm-12">
+          <!-- Show / Hide Dashboard Icon -->          
+            <svg 
+              version="1.1" 
+              id="Layer_1" 
+              xmlns="http://www.w3.org/2000/svg" 
+              xmlns:xlink="http://www.w3.org/1999/xlink" 
+              x="0px" 
+              y="0px"
+              viewBox="0 0 37.1 10" 
+              style="enable-background:new 0 0 37.1 10;" 
+              xml:space="preserve"
+              class="show-hide-db-icon"
+              ng-class="{'show-hide-db-icon-collapsed': !isSensorPanelExpanded}"
+              >
+              <style type="text/css">
+                .st0{
+                  fill: none;
+                  stroke: #2AACE3;
+                  stroke-width: 2;
+                  stroke-linecap: round;
+                  stroke-linejoin: round;
+                  stroke-miterlimit: 10;
+                }
+              </style>
+              <polyline class="st0" points="30.1,7.4 18.2,2.6 7,7.4 "/>
+            </svg>
+        </div>
+      </div><!-- /.row .show-hide-dashboard -->
+    </div>
+    <div class="container-fluid">
+      <div class="row tabs">
+        <!-- Sensors -->
+        <a href id="sensors-tab" ui-sref="hub.dashboard.sensors" ui-sref-active="active">
+        <div class="col-sm-2 col-sm-offset-2 tab sensors">
+        <div class="icon-container">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+          <defs>
+          </defs>
+              <path class="icon sensors" d="M31.5,19.5c0.8,0,1.5-0.7,1.5-1.5c0-0.8-0.7-1.5-1.5-1.5H29v-2.9h2.5c0.8,0,1.5-0.7,1.5-1.5
+                c0-0.8-0.7-1.5-1.5-1.5H29V10c0,0,0-3-3-3h-0.6V4.5c0-0.8-0.7-1.5-1.5-1.5c-0.8,0-1.5,0.7-1.5,1.5V7h-2.9V4.5
+                C19.5,3.7,18.8,3,18,3c-0.8,0-1.5,0.7-1.5,1.5V7h-2.9V4.5c0-0.8-0.7-1.5-1.5-1.5c-0.8,0-1.5,0.7-1.5,1.5V7H10c0,0-3,0-3,3v0.6H4.5
+                c-0.8,0-1.5,0.7-1.5,1.5c0,0.8,0.7,1.5,1.5,1.5H7v2.9H4.5C3.7,16.5,3,17.2,3,18c0,0.8,0.7,1.5,1.5,1.5H7v2.9H4.5
+                c-0.8,0-1.5,0.7-1.5,1.5c0,0.8,0.7,1.5,1.5,1.5H7V26c0,0,0,3,3,3h0.6v2.5c0,0.8,0.7,1.5,1.5,1.5c0.8,0,1.5-0.7,1.5-1.5V29h2.9v2.5
+                c0,0.8,0.7,1.5,1.5,1.5c0.8,0,1.5-0.7,1.5-1.5V29h2.9v2.5c0,0.8,0.7,1.5,1.5,1.5c0.8,0,1.5-0.7,1.5-1.5V29H26c0,0,3,0,3-3v-0.6
+                h2.5c0.8,0,1.5-0.7,1.5-1.5c0-0.8-0.7-1.5-1.5-1.5H29v-2.9H31.5z M26,26H10V10h16V26z"></path>
+              <rect class="icon sensors" x="13" y="13" width="10" height="10"></rect>
+          </svg>
+        </div>
+          <h3>Sensors</h3>
+        </div>
+        </a>
+        <!-- Packages -->
+        <a href id="packages-tab" ui-sref="hub.dashboard.packages" ui-sref-active="active">
+        <div class="col-sm-2 tab packages">
+          <div class="icon-container">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+            <defs>
+            </defs>
+            <path class="icon package" d="M29,2H12L8,6v3.2v6c1.5-0.8,3.2-1.2,5-1.2c6.1,0,11,4.9,11,11c0,2.7-0.9,5.1-2.5,7H28l4-4v-5.4V5
+              C32,5,32,2,29,2z M11.5,6l2.1-2h14.9l-2.1,2H11.5z M30,27l-2,2V8l2-2V27z"></path>
+            <path class="icon package" d="M13,16c-5,0-9,4-9,9c0,5,4,9,9,9c5,0,9-4,9-9C22,20,18,16,13,16z M13,31.5c-3.6,0-6.5-2.9-6.5-6.5
+              s2.9-6.5,6.5-6.5s6.5,2.9,6.5,6.5S16.6,31.5,13,31.5z"></path>
+            <circle class="icon package" cx="13" cy="25" r="2"></circle>
+            </svg>
+          </div>
+          <h3>Packages</h3>
+        </div>
+        </a>
+        <!-- Administration Tools -->
+        <a href id="admin-tools-tab" ui-sref="hub.dashboard.tools" ui-sref-active="active">
+        <div class="col-sm-2 tab admin-tools">
+          <div class="icon-container">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+            <defs>
+            </defs>
+            <path class="icon admin" d="M31.3,8.7l-5.4,5.4c-0.9,0.9-1.8,0-1.8,0L21.9,12c-0.9-0.9,0-1.8,0-1.8l5.4-5.4C26.3,4.3,25.2,4,24,4
+              c-4.4,0-8,3.6-8,8c0,1.1,0.2,2.1,0.6,3.1L4.9,26.9c-1.2,1.2-1.2,3.1,0,4.2C5.4,31.7,6.2,32,7,32c0.8,0,1.5-0.3,2.1-0.9l11.7-11.7
+              c1,0.4,2.1,0.7,3.2,0.7c4.4,0,8-3.6,8-8C32.1,10.9,31.8,9.8,31.3,8.7z"></path>
+            </svg>
+          </div>
+          <h3>Administration</h3>
+        </div>
+        </a>
+        <!-- Documentation -->
+        <a href id="documentation-tab" ui-sref="hub.dashboard.documentation" ui-sref-active="active">
+        <div class="col-sm-2 tab documentation">
+          <div class="icon-container">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36;" xml:space="preserve">
+            <defs>
+            </defs>
+            <path class="icon documentation" d="M26.8,4c-0.3-0.9-1-2-2.8-2H8c0,0-3,0-3,3v22c0,0,0,2.3,2,2.9V7c0-3,3-3,3-3H26.8z"></path>
+            <path class="icon documentation" d="M28,6H12c0,0-3,0-3,3v22c0,0,0,3,3,3h16c0,0,3,0,3-3V9C31,9,31,6,28,6z M28.5,31.5h-17v-2h17V31.5z M28.5,27
+              h-17v-2h17V27z M28.5,22.5h-17v-2h17V22.5z M20,18h-8.5V9.5H20V18z"></path>
+            </svg>
+          </div>
+          <h3>Documentation</h3>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Begin Sensors -->
+    <div class='container-fluid' style="background-color: gainsboro;">
+    <div class="container" style="padding-left: 0px; padding-right: 0px;">
+       <ui-view></ui-view>
+
+    </div><!-- /container -->
+  </div>
+    
+    

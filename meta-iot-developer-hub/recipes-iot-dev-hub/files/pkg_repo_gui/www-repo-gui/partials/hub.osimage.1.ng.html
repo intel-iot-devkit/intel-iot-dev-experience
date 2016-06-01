@@ -1,0 +1,71 @@
+
+          <!-- CREATE IMAGE STEP 2-->
+          <div class="admin-step">
+            <div class="create-img-progress-bar">
+              <div class="create-img-step">
+                <div class="create-img-step-number">1</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Insert USB Flash Drive</div>
+              </div>
+              <div class="create-img-step active">
+                <div class="create-img-step-number">2</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Select USB Flash Drive</div>
+              </div>
+              <div class="create-img-step">
+                <div class="create-img-step-number">3</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Review Configuration</div>
+              </div>
+              <div class="create-img-step">
+                <div class="create-img-step-number">4</div>
+                <div class="create-img-step-text">Save OS Image:<br/>Write OS Image to USB Flash Drive</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Save OS Image: Select USB Flash Drive</h1>
+              </div>
+            </div><!-- /.row -->
+            <div class="row">
+              <div class="col-md-12 description"><b>Warning: All files on the USB flash drive will be deleted.</b><br/>Select preferred USB flash drive from the storage devices displayed.<br/>If your preferred USB flash drive is not listed, ensure it is plugged in and select <strong>Scan Again</strong> to refresh the list.
+              </div>
+            </div><!-- .row -->
+            <div class="blue-modal-text left-align">Select preferred USB Flash Drive from loaded devices</div>
+            <div class="row">
+              <div class="col-md-8">
+                <table class="admin-modal-select-table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Size</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="usb_device in usb_devices">
+                      <td>
+                        <div ng-class="{'checked' : $parent.checked == $index}" class="check-box-usb-select" ng-click="setSelectedDevice(usb_device); $parent.checked = $index"></div>
+                      </td>
+                      <td>{{usb_device.Name}}</td>
+                      <td>{{usb_device.Size}}</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-4">
+                <div class="usb-inserted create-image-img"></div>
+              </div>
+            </div>
+            <div class="blue-button-md" ng-click="scanUSBDevices()" ng-class="{disabled: !connected}">{{scanning_usb ?  "Scanning..." : "Scan Again"}}</div>
+            <div class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal()">Cancel</div>
+              </div>
+              <div class="col-md-6">
+                <div class="blue-button-md admin-modal-btn" ng-if="selected_device!==null" ng-click="continueOSImage2()" ng-class="{disabled: !connected}">Continue</div>
+              </div>
+            </div>
+          </div><!-- /.admin-step -->
+
+
+                

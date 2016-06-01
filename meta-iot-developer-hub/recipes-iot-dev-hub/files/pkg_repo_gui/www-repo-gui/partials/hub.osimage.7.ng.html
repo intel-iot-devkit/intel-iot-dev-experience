@@ -1,0 +1,84 @@
+          <!-- CREATE IMAGE STEP 8-->
+          <div class="admin-step">
+            <h1>Deploy OS Image to Another Gateway</h1>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="description">
+                  To deploy the new image, remove the USB Flash Drive from the development gateway (#1) and follow the steps below:
+                </div>
+                <ol type="1" class="deploy-step">
+                  <li>
+                    <div class="deploy-step-title">Setup keyboard and monitor </div>
+                    <div class="deploy-step-description">
+                      <p>Install keyboard and monitor on 2nd gateway.</p> 
+                    </div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-title">Insert USB flash drive containing OS image into a 2nd gateway and Reboot</div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-title">Setup BIOS and Secure Boot</div>
+                    <div class="deploy-step-description">
+                        <ol>
+                            <li>Upon reboot quickly enter BIOS setup<sup>*</sup></li>
+                            <li>Ensure BIOS is 64 bit (not 32 bit)<sup>*</sup></li>
+                            <li>Set 1st boot priority = UEFIL via USB (make note of the internal storage device name)</li>
+                            <li>Save & exit BIOS Setup, then reboot</li>
+                        </ol>
+                        <p>
+                          <sup>*</sup> See gateway manufacturer for BIOS Setup instructions<br/>
+                          <a href="https://software.intel.com/en-us/SetupGateway-hardware" target="_blank"> Read about BIOS setup</a><br/>
+                          <a href="https://software.intel.com/GatewaySecurity-BestPractices" target="_blank">Read about Secure Boot setup</a>
+                        </p>
+                    </div>
+                  </li>
+                </ol>
+                 
+              </div>
+                  
+              <div class="col-md-6">
+                <div class="deploy-to-another create-image-img"></div> 
+              </div>
+              
+              <div class="close-admin-modal" ng-click="closeModal()"></div>
+            </div><!-- /.row -->
+            
+            <div class="row">
+              <div class="col-md-12">
+                  <ol class="deploy-step">
+                    <li value="4">
+                      <div class="deploy-step-title">Login and deploy</div>
+                      <div class="deploy-step-description">
+                        <p>At Linux command line, login as gwuser with password used during Save OS Image.</p>
+                        <p>Deploy OS image from USB flash drive to gateway #2 entering:   <strong>sudo deploytool -C -F -Y -y -d /dev/sda</strong></p>
+                      </div>
+                    </li>
+                    
+                    <li>
+                      <div class="deploy-step-title">Reboot &amp; reset BIOS setting</div>
+                      <div class="deploy-step-description">
+                        <ol>
+                          <li>At command line enter: <strong>sudo reboot</strong></li>
+                          <li>Upon boot up, quickly enter BIOS setup</li>
+                          <li>Ensure 1st boot priority = UEFI using internal storage device</li>
+                          <li>Remove the USB flash drive</li>
+                          <li>Save & exit BIOS Setup, then reboot.</li>
+                        </ol>
+                      </div>
+                    </li>
+                    
+                    <li>
+                      <div class="deploy-step-title">Test your IoT application on gateway #2</div>
+                      <div class="deploy-step-description">It is highly recommended to retest your IoT application on the newly created gateway. Enabling security capabilities can result in unwanted software behavior.<br/>
+                        For maintenance as needed, login as <strong>gwuser</strong>.
+                      </div>
+                    </li>
+                  </ol>
+                </div>
+                
+                <div class="description">NOTE: <a ng-click="openSaveDeployTutorial()">Save and Deploy Image tutorial</a> decribes the full steps to save and deploy an OS image. 
+                  For this and all other tutorials, see the <a ng-click="openDocumentation()">Documentation</a> menu.</div>
+                </div>
+              </div>
+             </div><!-- /.row -->
+          </div><!-- /.admin-step -->

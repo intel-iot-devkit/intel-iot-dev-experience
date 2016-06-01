@@ -1,0 +1,12 @@
+[Unit]
+Description=CherryPy Web Server for package repository
+After=syslog.target network.target nginx.service
+
+[Service]
+Type=simple
+EnvironmentFile=-/var/www/www-repo-gui/proxy_env
+WorkingDirectory=/var/www/www-repo-gui/python
+ExecStart=/usr/bin/python /var/www/www-repo-gui/python/server.py
+
+[Install]
+WantedBy=multi-user.target

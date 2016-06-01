@@ -1,0 +1,35 @@
+<div class="admin-step">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{title_message}}</h1>
+    </div>
+  </div><!-- /.row -->
+  <div class="row">
+    <div class="col-md-4 wr-logo-max">
+      <div class="wind-river-logo modal-wr-logo">
+        <img src="images/wind-river-logo.svg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%;">
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="wind-river-logo-txt">Wind River&reg; Linux 7</div>
+      <div class="description">{{description_message}}</div>
+      <div ng-if="show_warning_html" class="description" ng-include="'branding/os_update_warning.html'"></div>
+    </div>
+  </div><!-- .row -->
+  <div ng-if="show_bar" class="progress-bar-block">
+    <div class="blue-modal-text">{{bar_before_message}}</div>
+    <div class="progress-bar-iot">
+      <div class="progress-bar-indicator" style="width: 100%;"></div>
+    </div>
+    <div ng-if="show_last_error" class="post-activity-msg" style="color: red">{{bar_after_message}}</div>
+    <div ng-if="show_last_normal" class="post-activity-msg">{{bar_after_message}}</div>
+  </div>
+  <div ng-if="show_close" class="close-admin-modal" ng-click="closeModal()"></div>
+  <div ng-if="show_close_button" class="row admin-modal-btn-row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="blue-button-md admin-modal-btn center-button" ng-click="closeModal()">Finish</div>
+      </div>
+    </div>
+  </div><!-- .row -->
+</div><!-- /.admin-step -->

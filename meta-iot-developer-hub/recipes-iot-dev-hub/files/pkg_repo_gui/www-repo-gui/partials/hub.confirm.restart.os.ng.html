@@ -1,0 +1,17 @@
+        <div class="admin-step">
+            <h1>Restart OS?</h1>
+          
+            <div class="close-admin-modal" ng-click="closeModal()"></div>
+            <div class="row">{{message}}</div>
+            <div class="row"><span style='color: red;'>{{error_message}}</span></div>
+            <div class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                <div class="cancel-button-md admin-modal-btn" ng-click="closeModal()">Cancel</div>
+              </div>
+              
+
+              <div class="col-md-6">
+                <div class="blue-button-md admin-modal-btn"  ng-if="!restarted_os"   ng-click="restartOS()">{{restarting_os ? "Restarting OS..." : "Restart OS"}}</div>
+              </div>
+            </div>
+        </div>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<customizations>
+    <custom-logo>
+        <logo-file>logo.png</logo-file>
+    </custom-logo>
+    <custom-eulas>
+        <html-file>Intel_Eula.html</html-file>
+    </custom-eulas>
+</customizations>

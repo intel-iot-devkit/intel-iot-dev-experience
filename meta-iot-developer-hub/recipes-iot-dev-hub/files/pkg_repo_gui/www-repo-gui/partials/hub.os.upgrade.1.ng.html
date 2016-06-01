@@ -1,0 +1,27 @@
+<!-- OS UPGRADE STEP 1-->
+<div class="admin-step os-upgrade">
+  <h1>Upgrade to Pro Software Suite?</h1>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="description">
+        Your current OS (Intel&reg; IoT Gateway Software Suite) includes McAfee Embedded Control Essential, which is intended for evaluation purposes. It’s not too late! You can still upgrade to the Pro Software Suite now and enjoy the fully featured version of McAfee Embedded Control Pro.
+      </div><!-- /.description -->
+    </div><!-- /.col-md-12 -->
+  </div><!-- /.row -->
+  <div class="row">
+    <div class="col-md-12">
+      <div ng-if="!suppressReminder">
+        <input type="checkbox" ng-model="suppressReminder" ng-change="onSuppress(suppressReminder)"/> <span>Do not show this reminder again</span>
+      </div>
+    </div><!-- /.col-md-12 -->
+  </div>
+  <div class="row admin-modal-btn-row">
+    <div class="col-md-2 col-sm-12">
+      <div class="cancel-button-md admin-modal-btn" ng-click="closeModal()">Cancel</div>
+    </div>
+    <div class="col-md-10 col-sm-12">
+      <div class="blue-button-md admin-modal-btn"  ng-click="onNotNow()" ng-class="{disabled: !connected}" >Not now</div>
+        <div class="blue-button-md admin-modal-btn"  ng-click="continueOSUpgrade()" ng-class="{disabled: !connected}">Upgrade to Pro</div>
+    </div>
+  </div><!-- .row -->
+</div><!-- /.admin-step -->

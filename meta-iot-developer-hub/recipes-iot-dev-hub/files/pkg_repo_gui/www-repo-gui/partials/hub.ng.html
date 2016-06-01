@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row header login-background">
+        <div class="col-sm-12">
+            <div class="branding">
+                <img src="/images/intel-logo.svg" class="header-logo">
+                <h1>IoT Gateway Developer Hub</h1>
+            </div>
+
+            <div class="menu" ng-if="isDashboard()">
+                <ul>
+                    <li ng-hide="hideOEMBranding">
+                        <div class="oem-branding">
+                            <span>Powered by</span>
+                            <img ng-src="{{oem_logo_file}}" show-oem-on-load>
+                         </div>
+                    </li>
+                    <li>
+                        <div uib-dropdown>
+                            <div class="update item" uib-dropdown-toggle>
+                                <img src="/images/update.svg" class="icon">
+                                <span class="text">Updates</span>
+                                <span class="update-count" ng-if="hasUpdates()">{{updates}}</span>
+                            </div>
+                            <ul class="available-updates uib-dropdown-menu" role="menu">
+                                <!--<h3>Available Updates</h3>-->
+                                <!--<li ng-if="hasOSUpdate()" ui-sref="hub.dashboard.tools">
+                                    <span class="update-count dropdown-count">1</span>
+                                    <span class="update-type">OS Update</span>
+                                </li>-->
+                                <li ui-sref="hub.dashboard.tools">
+                                    <span class="update-count dropdown-count" style="visibility:hidden;"></span>
+                                    <span class="update-type">OS Update</span>
+                                </li>
+                                <li ng-if="package_updates.length>0" ui-sref="hub.dashboard.packages">
+                                    <span class="update-count dropdown-count">{{package_updates.length}}</span>
+                                    <span class="update-type">Package Updates</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="logout-btn item" ng-click="logout()">
+                            <div><span class="text">Logout</span></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ui-view />
+

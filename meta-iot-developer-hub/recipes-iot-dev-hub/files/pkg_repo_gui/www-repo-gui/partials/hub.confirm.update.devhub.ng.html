@@ -1,0 +1,30 @@
+         <!-- FACTORY RESET OF OS STEP 1-->
+          <div class="admin-step">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Package Update Notice</h1>
+              </div>
+            </div><!-- /.row -->
+            <div class="row">
+              <div class="col-md-12 description">
+                This package includes an update to the Intel® IoT Gateway Developer Hub. This will take a few minutes and, when completed, you will need to refresh web page and login again.
+              </div>
+            </div><!-- .row -->
+            <div ng-if="selfUpgrading">
+              <div class="progress-bar-block">
+                <div class="blue-modal-text">Upgrade in Progress...</div>
+                <div class="progress-bar-iot">
+                  <div class="progress-bar-indicator progress-bar progress-bar-striped active" role="progressbar" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div  ng-if="!selfUpgrading" class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                <div class="cancel-button-md admin-modal-btn" ng-click="closeModal()" >Cancel</div>
+              </div>
+              <div class="col-md-6">
+                <div class="blue-button-md admin-modal-btn" ng-click="doSelfUpdate()">OK</div>
+              </div>
+            </div><!-- .row -->
+          </div><!-- /.admin-step -->

@@ -1,0 +1,21 @@
+        <!-- 'Not Connected to Network' screen -->
+        <div class="abs-center no-network">
+          <div class="row">
+            <div class="col-md-2">
+              <!-- No Network Icon -->
+              <img src="/images/no-network-icon.svg">
+            </div><!-- /.col-md-4 -->
+
+            <div class="col-md-10">
+              <h1>Not Connected to Network</h1>
+              <p>Looks like the network was unable to connect automatically.</p>
+              <p>Would you like to configure the proxy manually?</p>
+
+              <!-- Nav -->
+              <div class="nav-options">
+                <div href class="blue-button-md" ng-click="skipConfigureNetwork()">Skip</div>
+                <div href class="blue-button-md" ng-click="configureNetwork()">Configure</div>
+              </div>
+            </div><!-- /.col-md-8 -->
+          </div><!-- /.row -->
+        </div><!-- /.no-network -->

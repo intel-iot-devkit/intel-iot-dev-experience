@@ -1,0 +1,51 @@
+   <!-- Onboarding body -->
+    <div class="container login-container">
+
+      <div class="row" ng-form>
+        <!-- Loading -->
+
+          <!-- http://tobiasahlin.com/spinkit/ -->
+
+        <!-- Login Screen abs-center-->
+        <div class="login fadein" ng-if="showLogin" shake-that>
+
+          <div class="network-error" ng-show="showServerError">{{serverErrorMessage}}</div>
+          <div class="network-error" ng-show="showAuthenticationError">Wrong credential was entered!</div>
+          <div class="row">
+            <div class="col-md-12">
+              <h1>Login</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="login-form">
+
+                <!-- Username -->
+                <div class="input-group">
+                  <span class="input-group-addon" id="username-icon">
+                    <img src="/images/username-icon.svg" style="width: 2rem; height: 2rem;">
+                  </span>
+                  <input ng-disabled="!showGo" type="text" class="form-control" placeholder="Username" ng-model="login.username" ng-keypress="keyPressed($event)">
+                </div>
+                <!-- Password -->
+                <div class="input-group">
+                  <span class="input-group-addon" id="password-icon">
+                    <img src="/images/password-icon.svg" style="width: 2rem; height: 2rem;">
+                  </span>
+                  <input ng-disabled="!showGo" type="password" class="form-control" placeholder="Password" ng-model="login.password" ng-keypress="keyPressed($event)">
+                </div>
+                <div ng-if="showGo" class="login-btn-parent">
+                    <div class="blue-button-md" ng-class="{disabled: !(login.username && login.password)}" ng-click="login()">Go</div>
+                </div>
+                <!-- status -->
+                <div ng-if="!showGo" class="input-group">
+                    <span class="waiting-styling" style="width: 8rem;height: 2rem; background: transparent; float: left">
+                        <div class="loader"></div>
+                    </span>
+                    <div class="blue-modal-text" style="float: left">{{barMessage}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>

@@ -1,0 +1,144 @@
+<div class="row main packages-body">
+    <div class="col-sm-12 header">
+        <h1>Installed Packages</h1>
+        <div class="blue-button-md add-packages" ng-class="{'disabled': !connected}" ng-click="openAddPackagesModal()">
+            <span>Add Packages</span>
+            <img src="/images/white-add.svg" style="width: 1.2rem; height: 1.2rem; display: inline-block; margin-bottom: .2rem;">
+        </div>
+        <div class="blue-button-md add-repo" ng-class="{'disabled': !connected}" ng-click="openCreateRepositoryModal()">
+            <span>Add Repo</span>
+            <img src="images/white-add.svg" style="width: 1.2rem; height: 1.2rem; display: inline-block; margin-bottom: .2rem;">
+        </div>
+        <div class="blue-button-md install-updates" ng-click="confirmUpdatePackages()" ng-class="{'disabled': package_updates.length === 0 || !connected || package_activity}">
+            <img src="images/white-update.svg">
+            <span>{{installing_all_package_updates ? "Installing Updates..." : "Install Updates"}}</span>
+            <span ng-if="package_updates.length>0" class="update-count">{{package_updates.length}}</span>
+        </div>
+    </div><!-- /.header -->
+
+    <!-- Main Content Body -->
+    <div class="col-sm-12 body">
+        <div ng-show="gettingPackages" style="margin-top:5rem">
+            <span class="waiting-styling" style="width: 8rem;height: 2rem; background: transparent; float: left">
+                <div class="loader"></div>
+            </span>
+            <div class="blue-modal-text" style="float: left">Getting Packages List......</div>
+        </div>
+        <table ng-hide="gettingPackages">
+            <thead>
+                <tr>
+                  <!-- Column 1 -->
+                  <th ng-click="sortType = 'name'; sortReverse = !sortReverse" class="sortable-header">
+                      Package Name
+                      <span ng-show="sortType == 'name'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                  </th>
+                  <!-- / Column 1 -->
+
+                  <!-- Column 2 -->
+                  <th ng-click="sortType = 'group'; sortReverse = !sortReverse" class="sortable-header">
+                      Category
+                      <span ng-show="sortType == 'group'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                  </th>
+                  <!-- / Column 2 -->
+
+                  <!-- Column 3 -->
+                  <th ng-click="sortType = 'launch'; sortReverse = !sortReverse" class="sortable-header">
+                      Launch Capability
+                      <span ng-show="sortType == 'launch'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                  </th>
+                  <!-- / Column 3 -->
+
+                  <!-- Column 4 -->
+                  <th ng-click="sortType = 'upgrade_version'; sortReverse = !sortReverse" class="sortable-header">
+                      Update
+                      <span ng-show="sortType == 'upgrade_version'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                  </th>
+                  <!-- / Column 4 -->
+
+                  <!-- Column 5 -->
+                  <th ng-click="sortType = 'running'; sortReverse = !sortReverse" class="sortable-header">
+                      Running
+                      <span ng-show="sortType == 'running'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                  </th>
+                  <!-- / Column 5 -->
+
+                  <!-- Column 6 -->
+                  <th ng-click="sortType = 'autorun'; sortReverse = !sortReverse" class="sortable-header">
+                      Auto Run
+                      <span ng-show="sortType == 'autorun'" class="fa pull-right"  ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                  </th>
+                  <!-- / Column 6 -->
+
+                  <!-- Column 7 -->
+                  <th>
+                  Activity State
+                  </th>
+                  <!-- / Column 7 -->
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="package in installed | orderBy:sortType:sortReverse" ng-class="{'updating-styling': updating_package[package.name]}">
+                  <!-- Column 1 -->
+                  <td>
+                    <div class="package">
+                      <div class="package-image-clickable" ng-click="showPackageInfo(package)">
+                        <img ng-src="/images/{{ package.image }}">
+                      </div>
+                      <span class="package-name-clickable" ng-click="showPackageInfo(package)">
+                        {{ package.name }}
+                      </span>
+                    </div>
+                  </td>
+                  <!-- / Column 1 -->
+
+                  <!-- Column 2 -->
+                  <td><div ng-if="!updating_package[package.name]">{{ package.group }}</div></td>
+                  <!-- / Column 2 -->
+
+                  <!-- Column 3 -->
+                  <td class="launch-package">
+                      <span ng-if="package.launch">
+                          <div class="blue-button-md" ng-class="{'disabled': !connected || updating_package[package.name] }" ng-click="launchPackage(package.name,package.launch)">Launch</div>
+                      </span>
+                  </td>
+                  <!-- / Column 3 -->
+
+                  <!-- Column 4 -->
+                  <td>
+                    <span ng-if="package.upgrade_version">
+                       <img src="/images/update-blue.svg" class="update-blue" ng-if="!installing_all_package_updates && !updating_package[package.name] && !update_package_failed[package.name]" ng-click="updatePackage(package)" ng-class="{'package-image-clickable-disabled': !connected}">
+
+                       <span class="updating-feedback" ng-if="updating_package[package.name] && !update_package_failed[package.name]"><div class="loader"></div>Updating...</span>
+
+                       <span class="updating-feedback-error" ng-if="update_package_failed[package.name]">{{update_package_fail_message[package.name]}}. Update failed, try again.</span>
+                    </span>
+                  </td>
+                  <!-- / Column 4 -->
+
+                  <!-- Column 5 -->
+                  <td><img src="/images/checkmark.svg" class="checkmark-blue" ng-if="package_statuses[package.name]['running'] && !updating_package[package.name]"></td>
+                  <!-- / Column 5 -->
+
+                  <!-- Column 6 -->
+                  <td><img src="/images/checkmark.svg" class="checkmark-blue" ng-if="package_statuses[package.name]['autorun'] && !updating_package[package.name]"></td>
+                  <!-- / Column 6 -->
+
+                  <!-- Column 7 -->
+                  <td class="launch-package">
+                      <span ng-if="package.service.length>0 && !updating_package[package.name]">
+                          <span ng-if="package_statuses[package.name]['running']">
+                             <div class="blue-button-md packages-stop-start" ng-class="{'disabled': stopping_package[package.name] || package_activity}" ng-click="serviceControl(package,'stop')">{{stopping_package[package.name] ? "Stopping" : "Stop"}}</div>
+                          </span>
+                          <span ng-if="!package_statuses[package.name]['running']">
+                             <div class="blue-button-md packages-stop-start" ng-class="{'disabled': starting_package[package.name] || package_activity}" ng-click="serviceControl(package,'start')">{{starting_package[package.name] ? "Starting" : "Start"}}</div>
+                        </span>
+                      </span>
+                  </td>
+                  <!-- / Column 7 -->
+                </tr>
+            </tbody>
+        </table>
+    </div><!-- /.body -->
+</div><!-- /.packages-body -->
+

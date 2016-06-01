@@ -1,0 +1,51 @@
+// Intel Clear Light
+@font-face {
+    font-family: 'intel_clearlight';
+    src: url('intelclear_lt-webfont.eot');
+    src: url('intelclear_lt-webfont.eot?#iefix') format('embedded-opentype'),
+         url('intelclear_lt-webfont.woff2') format('woff2'),
+         url('intelclear_lt-webfont.woff') format('woff'),
+         url('intelclear_lt-webfont.ttf') format('truetype'),
+         url('intelclear_lt-webfont.svg#intel_clearlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+//Intel Clear Regular
+@font-face {
+    font-family: 'intel_clearregular';
+    src: url('intelclear_rg-webfont.eot');
+    src: url('intelclear_rg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('intelclear_rg-webfont.woff2') format('woff2'),
+         url('intelclear_rg-webfont.woff') format('woff'),
+         url('intelclear_rg-webfont.ttf') format('truetype'),
+         url('intelclear_rg-webfont.svg#intel_clearregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Intel Clear Bold
+@font-face {
+    font-family: 'intel_clearbold';
+    src: url('intelclear_bd-webfont.eot');
+    src: url('intelclear_bd-webfont.eot?#iefix') format('embedded-opentype'),
+         url('intelclear_bd-webfont.woff2') format('woff2'),
+         url('intelclear_bd-webfont.woff') format('woff'),
+         url('intelclear_bd-webfont.ttf') format('truetype'),
+         url('intelclear_bd-webfont.svg#intel_clearbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Intel Clear Pro Bold
+@font-face {
+    font-family: 'intel_clear_probold';
+    src: url('intelclearpro_bd-webfont.eot');
+    src: url('intelclearpro_bd-webfont.eot?#iefix') format('embedded-opentype'),
+         url('intelclearpro_bd-webfont.woff2') format('woff2'),
+         url('intelclearpro_bd-webfont.woff') format('woff'),
+         url('intelclearpro_bd-webfont.ttf') format('truetype'),
+         url('intelclearpro_bd-webfont.svg#intel_clear_probold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

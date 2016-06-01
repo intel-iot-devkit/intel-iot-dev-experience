@@ -1,0 +1,33 @@
+<!-- License Agreement -->
+<div class="license">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>License Agreement</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <span>Please review the license terms before proceeding.</span>
+        </div>
+    </div>
+
+    <div ng-show="eulaLoaded" class="inner-container" ng-include src="current_eula_html_file" onload="eulaLoaded = true">
+    </div><!-- /.inner-container -->
+
+    <div ng-hide="eulaLoaded" style="margin-top:2rem; height:10rem">
+        <span class="waiting-styling" style="width: 8rem;height: 2rem; background: transparent; float: left">
+            <div class="loader"></div>
+        </span>
+        <div class="blue-modal-text" style="float: left">Getting License Agreement......</div>
+    </div>
+
+    <!-- Nav -->
+    <div ng-show="eulaLoaded" class="nav-options row">
+        <div class="col-md-6" style="text-align:left;">
+            <div href class="cancel-button-md" ng-click="logout()">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div href class="blue-button-sm" ng-click="agree()">Agree</div>
+        </div>
+    </div>
+</div><!-- /.license -->

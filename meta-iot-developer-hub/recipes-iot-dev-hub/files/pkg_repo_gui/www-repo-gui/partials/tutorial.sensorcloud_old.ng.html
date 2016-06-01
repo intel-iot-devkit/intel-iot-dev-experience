@@ -1,0 +1,297 @@
+ <div class="tutorial-page">
+    <!-- Header -->
+    <div class="container">
+      <div class="row header">
+        <div class="col-sm-12">
+          <h1>Connect sensor output to cloud in Node-Red</h1>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Overview</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Body -->
+    <div class="container">
+      <div class="row section-body">
+        <div class="col-sm-6">
+          <h3>Connecting gateway to HDC</h3>
+          <p>Connecting the gateway to the Wind River&reg; Helix&trade; Device Cloud to send sensor telemetry data to Device Cloud and retrieve it back from the cloud to display on local dashboard.</p>
+        </div>
+        <div class="col-sm-3">
+          <h3>Why?</h3>
+          <p>Demonstrate how-to connect the Intel IoT gateway to the Helix Device Cloud to send telemetry data (default CPU temperature) and retrieve data from the HDC server. </p>
+        </div>
+        <div class="col-sm-3">
+        <h3>Prepare</h3>
+          <p>A)	Gateway is connected to Internet<br/>
+          B)	Complete Tutorial #1: <a href="/#/tutorial/sensorsetup">Setup a Sensor in Node-Red</a><br/> 
+          C) Show info panel using upper-right menu: Toggle Sidebar & click Info tab</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Part 1 of 2:  Send sensor data to Helix Device Cloud</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 1</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Open Node-Red</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Navigate to <strong>Sensors</strong> then click <strong>MANAGE SENSORS</strong> to open Node-Red</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 2</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Create a sheet</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click on the [+] tab to create a new sheet.</p>
+          <img src="/images/tutorials/sensorcloud_step1_2a.png"> 
+          <p>Double click on the new tab, rename it to <strong>Tutorial 2-send</strong> then click OK</p>
+          <img src="/images/tutorials/sensorcloud_step1_2b.png">
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 3</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Import HDC Send Flow</p>
+        </div>
+        <div class="col-sm-9">
+          <p>From <strong>menu</strong> on upper-right, select <strong>Import > Library > hdc-send-tutorial</strong> which import the HDC Send Data Flow.</p>
+          <p>Left click to place the flow onto the workspace.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 4</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Add a sensor node</p>
+        </div>
+        <div class="col-sm-9">
+          <p>From <strong>subflows</strong> menu, click & drag the <strong>RH-USB</strong> sensor node to the Tutorial 2-send sheet.</p>
+          <img src="/images/tutorials/sensorcloud_step1_4a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 5</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Connect the sensor</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click & drag to connect the output (right) of Collect temperature <strong>(Inject)</strong> node to the input (left) <strong>RH-USB</strong> node.</p>
+          <img src="/images/tutorials/sensorcloud_step1_5a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 6</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Add HDC send node</p>
+        </div>
+        <div class="col-sm-9">
+          <p>From <strong>subflows</strong> menu, click & drag <strong>HDC send</strong> node to the Tutorial 2-send sheet</p>
+          <img src="/images/tutorials/sensorcloud_step1_6a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 7</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Connect to HDC send</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Connect the <strong>RH-USB</strong> node to the <strong>HDC send</strong> node.</p>
+          <img src="/images/tutorials/sensorcloud_step1_7a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->    
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 8</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Add <strong>debug</strong></p>
+        </div>
+        <div class="col-sm-9">
+          <p>From <strong>output</strong> menu, click & drag the <strong>debug</strong> node to Tutorial 2-send sheet and connect the <strong>HDC send</strong> to the <strong>debug</strong> node. </p>
+          <img src="/images/tutorials/sensorcloud_step1_8a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+   <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 9</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Deploy application</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click <strong>Deploy</strong> (upper right) to deploy the flow.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->    
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step last">
+        <div class="col-sm-1">
+          <h3>Step 10</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Start reading sensor data</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click button to left of <strong>Collect temperature</strong> node to start collecting temperature.</p>
+          <p>Click on the <strong>debug</strong> node to enable debug message.   The debug output should display in the debug panel on the right side.  (click Debug tab if needed to view contents)</p>
+          </p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->    
+    
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Part 2 of 2:  Receive data from Helix Device Cloud to display on local graph</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 1</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Create a sheet</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click on the <strong>[+]</strong> tab to create a new sheet.</p>
+          <p>Double click on the new tab, rename it to <strong>Tutorial 2-receive</strong> then click OK</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 2</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Import HDC  Receive Flow</p>
+        </div>
+        <div class="col-sm-9">
+          <p>From menu on right side, click <strong>Import > Library > hdc-receive-tutorial</strong> to import the HDC Receive Flow.</p>
+          <p>Left click to place the flow onto the workspace.</p>
+          <img src="/images/tutorials/sensorcloud_step2_2a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 3</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Configure the gateway reads data rate</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Double-click on the <strong>Inject “Read HDC data every 5sec”</strong> node to configure the gateway reading HDC data rate.  
+          Change the <strong>repeat interval</strong> to a desired rate.   Click <strong>OK</strong> when done</p>
+          <img src="/images/tutorials/sensorcloud_step2_3a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 4</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Deploy application</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click <strong>Deploy</strong> to deploy the flow.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 5</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Start reading cloud data</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click button to left of <strong>Inject</strong> node to start reading HDC data from cloud.</p>
+          <p>Click on the <strong>debug</strong> node to enable debug message.   Debug values should display under the debug panel on right side.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step last">
+        <div class="col-sm-1">
+          <h3>Step 6</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>View results on the Intel® IoT Gateway Developer Hub</p>
+        </div>
+        <div class="col-sm-9">
+          <p>View the graphs at top of the Intel® IoT Gateway Developer Hub.  The temperature and humidity graphs should include real time cloud data.</p>
+          <p>The cloud data has been sent to HDC then retrieved back from the cloud.</p>
+          <img src="/images/tutorials/sensorcloud_step2_6a.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+</div><!-- /.tutorial-page -->

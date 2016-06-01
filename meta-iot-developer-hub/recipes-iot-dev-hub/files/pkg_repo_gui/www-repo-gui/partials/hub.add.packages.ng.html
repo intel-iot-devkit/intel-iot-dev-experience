@@ -1,0 +1,106 @@
+        <!-- Add New Packages screen -->
+        <div class="add-new-packages">
+          <img src="images/x.svg" class="close-add-new-packages" ng-click="closeAddPackages()">
+          <div class="row">
+            <div class="col-md-12">
+              <h1>Add New Packages</h1>
+            </div>
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-md-8">
+              <p class="description">Select Install to load new packages and applications to your Packages page.</p>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="search-packages" ng-model="query" placeholder="Search Packages">
+            </div>
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-container">
+                            
+                <table>
+                  <thead>
+                    <tr>
+                      <th ng-click="sortType = 'name'; sortReverse = !sortReverse" class="sortable-header">
+                          Package Name
+                          <span ng-show="sortType == 'name'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                      </th>
+                      <th ng-click="sortType = 'group'; sortReverse = !sortReverse" class="sortable-header">
+                          Category
+                          <span ng-show="sortType == 'group'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                      </th>
+                      <th ng-click="sortType = 'vertical'; sortReverse = !sortReverse" class="sortable-header">
+                          Vertical
+                          <span ng-show="sortType == 'vertical'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                      </th>
+                      <th>
+                          
+                          
+                      </th>
+                    </tr>
+                  </thead>
+                  
+                   <tbody ng-if="!query">
+                    <tr ng-repeat="package in available | orderBy:sortType:sortReverse" ng-class="{untrustedconfirmation:package.confirmUntrusted}">
+                      <td>
+                        <div class="package">
+                          <img ng-src="/images/{{package.image}}" class="package-image">
+                          <span class="package-name">
+                            {{ package.name }}
+                          </span>
+                        </div>
+                      </td>
+
+                      <td ng-hide="package.confirmUntrusted"> {{ package.group }}</td>
+                      <td ng-hide="package.confirmUntrusted">{{ package.vertical }}</td>
+
+                      <td ng-show="package.confirmUntrusted" class="ng-binding" colspan="2">
+                        The package is untrusted.<br>
+                        Do you want to continue?</td>
+
+                      <td class="padding-sm">
+                        <div ng-hide="package.confirmUntrusted"
+                             class="blue-button-md col-sm-12" ng-class="{'disabled': installing_any_package || !connected}" ng-click="installPackage(package)">{{installed_package[package.name] ? "Installed" : (installing_package[package.name] ? "Installing..." : "Install")}}</div>
+
+                        <div ng-show="package.confirmUntrusted">
+                          <div class="blue-button-md" ng-click="startTrustedInstall(package)" style="margin-right: 1rem;">Yes</div>
+                          <div class="blue-button-md" ng-click="package.confirmUntrusted=false">No</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                    <tbody ng-if="query">
+
+                    <tr ng-repeat="package in available | filter: query | orderBy:sortType:sortReverse"  ng-class="{untrustedconfirmation:package.confirmUntrusted}">
+                        <td>
+                            <div class="package">
+                                <img ng-src="/images/{{package.image}}" class="package-image">
+                          <span class="package-name">
+                            {{ package.name }}
+                          </span>
+                            </div>
+                        </td>
+                        <td ng-hide="package.confirmUntrusted"> {{ package.group }}</td>
+                        <td ng-hide="package.confirmUntrusted">{{ package.vertical }}</td>
+
+                        <td ng-show="package.confirmUntrusted" class="ng-binding" colspan="2">
+                            The package is untrusted.<br>
+                            Do you want to continue?</td>
+                        <td class="padding-sm">
+                            <div ng-hide="package.confirmUntrusted" class="blue-button-md col-sm-12" ng-class="{'disabled': installing_any_package}" ng-click="installPackage(package)">{{installing_package[package.name] ? "Installing..." : "Install"}}</div>
+
+                            <div ng-show="package.confirmUntrusted">
+                                <button class="btn btn-info btn-green-alt" ng-click="startTrustedInstall(package)" style="margin-right: 1rem;">Yes</button>
+                                <button class="btn btn-primary btn-green" ng-click="package.confirmUntrusted=false">No</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                
+                </table>
+              </div><!-- /.container for table sort -->
+            </div>
+          </div><!-- .row -->
+        </div><!-- /.add-new-packages -->

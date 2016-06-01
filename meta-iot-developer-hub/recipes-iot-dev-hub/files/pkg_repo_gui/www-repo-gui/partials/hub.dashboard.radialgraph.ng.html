@@ -1,0 +1,20 @@
+<div>
+	<div class="radial-chart">                            
+		<canvas 
+			id="doughnut" 
+			class="chart chart-doughnut" 
+			chart-data="dataPair" 
+			chart-labels="labels"
+			chart-options="options"
+			chart-colours="doughnutColors"
+			width="220"
+			height="220"
+			>
+		</canvas> 
+	</div>
+	<div class="value-label" ng-class="{'sensor-description-offline':!connected}">
+		<h4 >{{data}}</h4>
+		<br/>
+		<h4><span>{{units}}</span></h4>
+	</div>
+</div>

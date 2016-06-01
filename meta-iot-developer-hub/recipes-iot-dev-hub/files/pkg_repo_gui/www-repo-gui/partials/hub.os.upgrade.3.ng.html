@@ -1,0 +1,25 @@
+<!-- OS UPGRADE STEP 3-->
+<div class="admin-step">
+    <h1>Operating System Upgrade</h1>
+    <div ng-if="in_pro_upgrade" class="description">Thank you for your purchase of the Intel® IoT Gateway Pro Software Suite.<br/>Please do not turn off the gateway. The upgrade is in progress, downloading and installing onto this gateway. This should take {{timeHours}}.</div>
+    <div ng-if="!in_pro_upgrade" class="description">Thank you for your purchase of the Intel® IoT Gateway Pro Software Suite.</div>
+    <div class="progress-bar-block">
+        <div class="blue-modal-text">{{before_bar_message}}</div>
+        <div ng-if="in_pro_upgrade" class="progress-bar-iot">
+            <div class="progress-bar-indicator progress-bar progress-bar-striped active" role="progressbar" style="width: 100%;"></div>
+        </div>
+        <div ng-if="!in_pro_upgrade" class="progress-bar-iot">
+            <div class="progress-bar-indicator" style="width: 100%;"></div>
+        </div>
+    </div>
+    <div class="row admin-modal-btn-row">
+        <div ng-if="in_pro_upgrade" class="col-md-6">
+        </div>
+        <div ng-if="!in_pro_upgrade" class="col-md-12">
+            <div class="row">
+                <div class="blue-button-md admin-modal-btn center-button" ng-click="closeModal()">{{button_title}}</div>
+            </div>
+            <div style='color:red; text-align: center'>{{error_message}}</div>
+        </div>
+    </div><!-- .row -->
+</div><!-- /.admin-step -->

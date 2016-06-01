@@ -1,0 +1,88 @@
+<div class="network-settings">
+    <div class="close-admin-modal" ng-click="closeModal()"></div>
+    <h1>Network Settings</h1>
+    <div class="network-settings-connection-result" ng-class="{error:!saveResult.success}" ng-show="saveResult.isVisible">
+        <!--img ng-src="{{saveResult.success?('images/checkmark.svg'):('images/x.png')}}"/-->
+        {{saveResult.message}}
+    </div>
+
+    <form name="networkSettings" ng-hide="isSaving">
+        <div class="inner-container">
+            <!-- Proxy Settings -->
+            <span>Proxy Settings:</span>
+            <div class="granular-settings" ng-hide="tmpSettings.use_granular">
+                <!-- HTTP Proxy -->
+                <div class="input-group">
+                    <label for="http-proxy" class="col-sm-2">HTTP Proxy:</label>
+                    <input type="text" placeholder="URL" id="http-proxy" class="col-sm-7" name="http-proxy" ng-model="tmpSettings.http_url" >
+                    <label for="http-proxy-port" class="sr-only">HTTP Proxy Port:</label>
+                    <input type="text" placeholder="Port" id="http-proxy-port" name="http-proxy-port" class="port col-sm-3" ng-model="tmpSettings.http_port">
+                </div>
+                <!-- HTTPS Proxy -->
+                <div class="input-group">
+                    <label for="https-proxy" class="col-sm-2">HTTPS Proxy:</label>
+                    <input type="text" placeholder="URL" id="https-proxy" class="col-sm-7" name="https-proxy"  ng-model="tmpSettings.https_url">
+                    <label for="https-proxy-port" class="sr-only">HTTPS Proxy Port:</label>
+                    <input type="text" placeholder="Port" id="https-proxy-port" name="https-proxy-port" class="port col-sm-3" ng-model="tmpSettings.https_port" >
+                </div>
+                <!-- FTP Proxy -->
+                <div class="input-group">
+                    <label for="ftp-proxy" class="col-sm-2">FTP Proxy:</label>
+                    <input type="text" placeholder="URL" id="ftp-proxy" class="col-sm-7" name="ftp-proxy" ng-model="tmpSettings.ftp_url">
+                    <label for="ftp-proxy-port" class="sr-only">FTP Proxy Port:</label>
+                    <input type="text" placeholder="Port" id="ftp-proxy-port" name="ftp-proxy-port" class="port col-sm-3" ng-model="tmpSettings.ftp_port" >
+                </div>
+                <!-- Socks Host -->
+                <div class="input-group">
+                    <label for="socks-host" class="col-sm-2">Socks Host:</label>
+                    <input type="text" placeholder="URL" id="socks-host" class="col-sm-7" name="socks-host" ng-model="tmpSettings.socks_url">
+                    <label for="socks-host-port" class="sr-only">HTTP Proxy Port:</label>
+                    <input type="text" placeholder="Port" id="socks-host-port" name="socks-host-port" class="port col-sm-3" ng-model="tmpSettings.socks_port" >
+                </div>
+            </div>
+
+            <div class="single-setting" ng-hide="!tmpSettings.use_granular">
+                <div class="input-group">
+                    <label for="http-proxy">HTTP Proxy:</label>
+                    <input type="text" placeholder="URL" id="single-url" name="single-url" ng-model="tmpSettings.single_url">
+                    <label for="http-proxy-port" class="sr-only">HTTP Proxy Port:</label>
+                    <input type="text" placeholder="Port" id="single-port" name="single-port" class="port" ng-model="tmpSettings.single_port">
+                </div>
+            </div>
+        </div><!-- /.inner-container -->
+
+        <!-- Test Settings -->
+        <div class="inner-container">
+            <span>No Proxy for:</span>
+            <textarea class="form-control" rows="3" ng-model="tmpSettings.no_proxy"></textarea>
+
+            <div ng-hide="hideTestSettings">
+                <input type="button" class="test-settings" ng-click="testSettings()" value="Test settings" ng-disabled="networkSettingsTest.running || !networkSettings.$valid">
+                <span class="status-message" ng-show="networkSettingsTest.isVisible">
+                <img width="20" height="20" ng-src="{{networkSettingsTest.success?('images/yes-cloud.png'):('images/no-cloud.png')}}"/>
+                    {{networkSettingsTest.result}}
+                </span>
+            </div>
+
+        </div><!-- /.inner-container -->
+    </form>
+
+    <div ng-show="isSaving" class="network-settings-save-progress">
+        <div class="progress-bar-block">
+            <div class="blue-modal-text">Saving network settings and refreshing the installed package list. This may take a few minutes.</div>
+            <div class="progress-bar-iot">
+                <div class="progress-bar-indicator progress-bar progress-bar-striped active" role="progressbar" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="row admin-modal-btn-row" ng-hide="isSaving">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-hide="hideCancel" ng-click="skipSettings()" ng-disabled="isSaving">{{cancelText}}</div>
+        </div>
+        <div class="col-md-6">
+            <div class="blue-button-md admin-modal-btn" ng-click="nextAction()"><span ng-show="isSaving" class="spinner"></span>{{saveText}}</div>
+        </div>
+    </div>
+</div>

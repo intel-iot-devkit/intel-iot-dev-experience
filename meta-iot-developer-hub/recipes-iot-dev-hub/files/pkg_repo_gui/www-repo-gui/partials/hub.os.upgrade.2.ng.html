@@ -1,0 +1,58 @@
+         <!-- OS UPGRADE STEP 2-->
+          <div class="admin-step">
+
+            <div class="row">
+              <div class="col-md-6 description">
+                <h1>Operating System Upgrade</h1>
+                <ol>
+                  <li>
+                    <div class="deploy-step-description">Visit <a href="http://www.inteliotmarketplace.com" target="marketplace">inteliotmarketplace.com</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-description">Purchase Intel&reg; IoT Gateway Pro Software Suite
+                    </div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-description">Receive confirmation email which includes your Wind River upgrade credentials
+                    </div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-description">Return to this screen and enter credentials
+                    </div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-description">Click &ldquo;Continue&rdquo; to proceed with OS upgrade
+                    </div>
+                  </li>
+                </ol>
+                <img src="/images/upgrade_wind_logo.png">
+              </div>
+
+              <div class="col-md-6">
+                <div class="modal-interior-box">
+                  <h3>Wind River Upgrade Credentials</h3>
+                  Follow instructions at left and enter credentials received in step 3.
+                  <div class="input-block">
+                    <div class="user-icon"></div>
+                    <input type="text" placeholder="username" ng-model="credentials.username" />
+                  </div>
+
+                  <div class="input-block">
+                    <div class="lock-icon"></div>
+                    <input type="password" placeholder="password" ng-model="credentials.password"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style='color: red; text-align: center;'>{{error_message}}</div><!-- only for invalid username password, checked against original auth credentials stored in root scope -->
+
+            <div class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                <div class="cancel-button-md admin-modal-btn" ng-click="closeModal()">Cancel</div>
+              </div>
+              <div class="col-md-6">
+                <div class="blue-button-md admin-modal-btn" ng-click="continueOSUpgrade()" ng-class="{disabled: !connected}">Continue</div>
+              </div>
+            </div><!-- .row -->
+          </div><!-- /.admin-step -->

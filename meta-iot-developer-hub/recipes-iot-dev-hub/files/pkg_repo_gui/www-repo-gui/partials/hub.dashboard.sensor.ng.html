@@ -1,0 +1,82 @@
+<div class="sensors-visualizer">
+  <div class="sensor-title">
+    <h3 class="expanded" ng-class="{'expanded-collapsed':!isSensorPanelExpanded}">{{sensor.title}}</h3>
+    <div ng-hide="isSensorPanelExpanded">
+      <!--  We do not use sensor.mostRecentValue any more, since the sensor may have many charts with data in different units or formats.  -->
+        <div ng-repeat="chart in sensor.charts | orderBy : 'sourcePriority'">
+            <div class="text-value" ng-if="chart.chartType == 'gauge'" ng-class="{'text-value-offline':!chart.connected}">{{chart.value}}</div>
+            <div class="text-value" ng-if="chart.chartType == 'line'" ng-class="{'text-value-offline':!chart.connected}">{{chart.value.y}}</div>
+            <div class="text-value" ng-if="chart.chartType == 'text'" ng-class="{'text-value-offline':!chart.connected}">{{chart.value}}</div>
+            <div class="color-value" ng-if="chart.chartType == 'led'" ng-class="{'color-value-offline':!chart.connected}" ng-style="{'background-color': chart.value}"/>
+            <div class="unit-value" ng-class="{'unit-value-offline':!chart.connected}">{{chart.units}}<br/>{{chart.dataSource}}</div>
+        </div>
+    </div>
+  </div>
+  
+  <div ng-show="isSensorPanelExpanded">
+      <div class="sensor-widget" ng-repeat="chart in sensor.charts | orderBy : 'sourcePriority'">
+        <div class="sensor-widget-body">
+            <!-- Chart -->
+            <hub-dashboard-radial-graph 
+              ng-if="chart.chartType == 'gauge'" 
+              data="chart.value"
+              upper-range="chart.max"
+              lower-range="chart.min"
+              connected="chart.connected"
+              units="chart.units"></hub-dashboard-radial-graph>
+     
+            <div class="spark-chart" ng-if="chart.chartType == 'line'" >
+              <hub-dashboard-linegraph 
+                scale-steps="5" 
+                scale-step-width="chart.stepWidth"
+                scale-start-value="chart.min"
+                points-to-show="chart.pointsToShow"
+                units="chart.units"
+                connected="chart.connected"
+                latest-data="chart.value"></hub-dashboard-linegraph>
+            </div>
+        
+            <div class="text-chart" ng-if="chart.chartType == 'text'">
+                <div class="text-chart-value"
+                     ng-class="{'text-chart-offline':!chart.connected}">
+                    <span>{{chart.value}}</span>
+                </div>
+            </div>
+
+            <div class="led-chart" ng-if="chart.chartType == 'led'">
+                <div class="led-chart-body"
+                     ng-class="{'led-chart-offline':!chart.connected}"
+                     ng-style="{'background-color': chart.value}"></div>
+            </div>
+
+            <!-- Sensor Description -->
+            <div class="sensor-description" ng-class="{'sensor-description-offline':!chart.connected}">
+                <svg version="1.1" viewBox="0 0 22.1 22.1" ng-show="chart.connected">
+                    <g>
+                        <path d="M1.8,11.3c5,0,9.1,4.1,9.1,9.1c0,1,0.8,1.8,1.8,1.8c1,0,1.8-0.8,1.8-1.8c0-7-5.7-12.7-12.7-12.7
+                            C0.8,7.7,0,8.5,0,9.5C0,10.5,0.8,11.3,1.8,11.3L1.8,11.3z"/>
+                        <path d="M1.8,3.6c9.2,0,16.7,7.5,16.7,16.7c0,1,0.8,1.8,1.8,1.8c1,0,1.8-0.8,1.8-1.8C22.1,9.1,13,0,1.8,0
+                            C0.8,0,0,0.8,0,1.8C0,2.8,0.8,3.6,1.8,3.6L1.8,3.6z"/>
+                        <path d="M3.4,15.5c-1.8,0-3.2,1.4-3.2,3.2c0,1.8,1.5,3.2,3.2,3.2c1.8,0,3.2-1.5,3.2-3.2C6.7,16.9,5.2,15.5,3.4,15.5
+                            L3.4,15.5z"/>
+                    </g>
+                </svg>
+                <svg version="1.1" viewBox="0 0 28.5 28.5" ng-hide="chart.connected">
+                    <g>
+                        <path d="M16.2,28.5c-1.6,0-2.9-1.3-2.9-2.9c0-5.7-4.6-10.3-10.3-10.3c-1.6,0-2.9-1.3-2.9-2.9c0-1.6,1.3-2.9,2.9-2.9
+                            c8.9,0,16.2,7.2,16.2,16.2C19.1,27.1,17.8,28.5,16.2,28.5z M2.9,10.9c-0.8,0-1.4,0.6-1.4,1.4c0,0.8,0.6,1.4,1.4,1.4
+                            c6.5,0,11.8,5.3,11.8,11.8c0,0.8,0.6,1.4,1.4,1.4c0.8,0,1.4-0.6,1.4-1.4C17.6,17.4,11,10.9,2.9,10.9z"/>
+                        <path d="M25.5,28.5c-1.6,0-2.9-1.3-2.9-2.9c0-10.8-8.8-19.6-19.6-19.6C1.3,5.9,0,4.6,0,2.9C0,1.3,1.3,0,2.9,0
+                            C17,0,28.5,11.5,28.5,25.5C28.5,27.1,27.1,28.5,25.5,28.5z M2.9,1.5c-0.8,0-1.4,0.6-1.4,1.4c0,0.8,0.6,1.4,1.4,1.4
+                            c11.7,0,21.1,9.5,21.1,21.1c0,0.8,0.6,1.4,1.4,1.4c0.8,0,1.4-0.6,1.4-1.4C27,12.3,16.2,1.5,2.9,1.5z"/>
+                        <path d="M4.9,28.2c-2.6,0-4.7-2.1-4.7-4.7s2.1-4.7,4.7-4.7s4.7,2.1,4.7,4.7S7.5,28.2,4.9,28.2z M4.9,20.4
+                            c-1.8,0-3.2,1.4-3.2,3.2s1.4,3.2,3.2,3.2s3.2-1.4,3.2-3.2S6.7,20.4,4.9,20.4z"/>
+                    </g>
+                </svg>
+
+              <h5>{{chart.dataSource}}</h5>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

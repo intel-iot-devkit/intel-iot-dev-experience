@@ -1,0 +1,121 @@
+w      <!-- Add Repository -->
+      <div class="add-repository">
+        <img src="images/x.svg" class="close-add-new-packages" ng-hide="deleting_any_repository || adding_repository || updating_repositories" ng-click="closeModal()">
+
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Manage Repositories</h1>
+          </div>
+        </div><!-- /.row -->
+
+        
+
+        <div class="row">
+          <div class="col-md-7">
+
+            <!-- Repository Management -->
+            <div class="row">
+              <div class="col-md-12">
+              <span><!-- Adding repositories allows you access to more installable packages.--></span>
+              </div>
+            </div><!-- /.row -->
+
+            <!-- Existing Repositories -->
+            <div class="row">
+              <div class="col-md-12">
+              <span class="existing-repositories">Existing Repositories</span>
+              </div>
+            </div><!-- /.row -->
+
+            <!-- Repository List -->
+            <div class="row repository-list">
+                <div class="row repository-list-item" ng-repeat="repository in repositories">
+                <div class="col-sm-8">
+                    <span>{{repository}}</span>
+                </div>
+                <div class="col-sm-4">
+                    <div class="blue-button-md action" ng-click="deleteRepo(repository)" ng-class="{'disabled': (adding_repository || updating_repositories || deleting_any_repository || !connected) }">{{deleting_repository[repository] ? "Deleting..." : "Delete"}}</div>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Update -->
+            <div class="row">
+              <div class="col-md-12">
+              <!-- <span class="existing-repositories">Update</span> -->
+              </div>
+            </div><!-- /.row -->
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="blue-button-md update-repo-button" ng-click="updateRepos()" ng-class="{'disabled': (adding_repository || deleting_any_repository || deleting_any_repository || !connected) }">
+                      {{updated_repositories ? "Updated" : (updating_repositories ? "Updating..." : "Update Repositories")}}
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.col-md-7 -->
+          <div class="col-md-5 add-new-repository">
+
+            <!-- Add New Repository -->
+            <div class="row">
+              <div class="col-md-12">
+                <span class="add-new-repo-text">Add New Repository</span>
+              </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+
+            <!-- Repository Name -->
+            <div class="row">
+              <div class="col-md-12" ng-hide="adding_repository">
+                <input type="text" placeholder="Name" ng-model="newRepository.name">
+              </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+
+            <!-- Repository URL -->
+            <div class="row">
+              <div class="col-md-12"  ng-hide="adding_repository">
+                <input type="text" class="search-packages" placeholder="URL" ng-model="newRepository.url">
+              </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+
+            <!-- Authentication -->
+            <div class="row"  ng-hide="adding_repository">
+              <div class="col-md-12">
+                <span class="authentication">Authentication</span>
+              </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+
+
+            <div class="row" ng-hide="adding_repository">
+              <div class="col-md-12">
+                <input type="text" placeholder="Username" ng-model="newRepository.username">
+              </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+            <div class="row" ng-hide="adding_repository">
+              <div class="col-md-12">
+                <input type="password" placeholder="Password" ng-model="newRepository.password">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="blue-button-md add-repo-modal-button" ng-click="addRepo()" ng-class="{'disabled': (!(newRepository.name&&newRepository.url) ||updating_repositories || deleting_any_repository || deleting_any_repository || !connected) }" >
+                  {{adding_repository? "Adding Repository..." : "Add Repository"}}
+                </div>
+
+                
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="success-message">{{response_message_add}}</div>
+                <div class="error-message">{{error_message_add}}</div>
+              </div>
+            </div>
+
+          </div><!-- /.col-md-5 -->
+        </div><!-- /.row -->
+
+      </div><!-- /.add-new-packages -->
+      <div class="success-message">{{response_message}}</div>
+      <div class="error-message">{{error_message}}</div>

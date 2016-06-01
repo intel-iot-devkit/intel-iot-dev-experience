@@ -1,0 +1,50 @@
+      <div class="row main sensors-body">
+        <!-- Main Content Heading -->
+        <div class="col-sm-12 header">
+          <h1>Connected Sensors</h1>
+
+          <div class="blue-button-md manage-sensors-btn" ng-click="doManageSensors()">
+            <span>Manage Sensors</span>
+            <img src="images/white-add.svg" style="width: 1.2rem; height: 1.2rem; display: inline-block; margin-bottom: .2rem;">
+          </div>
+        </div>
+        <!-- Main Content Body -->
+        <div class="col-sm-12 body">
+          <table>
+            <!-- Table Header -->
+            <thead>
+              <tr>
+                <th ng-click="sortType = 'parentSensorTitle'; sortReverse = !sortReverse" class="sortable-header">
+                    Sensor Name
+                    <span ng-show="sortType == 'parentSensorTitle'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                </th>
+                <th ng-click="sortType = 'dataSource'; sortReverse = !sortReverse" class="sortable-header">
+                    Source
+                    <span ng-show="sortType == 'dataSource'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                </th>
+                <th ng-click="sortType = 'units'; sortReverse = !sortReverse" class="sortable-header">
+                    Unit of Measure
+                    <span ng-show="sortType == 'units'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                </th>
+                <th>Value</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-repeat="chart in charts_flat_list | orderBy:sortType:sortReverse">
+                <td>{{chart.parentSensorTitle}}</td>
+                <td>{{chart.dataSource}}</td>
+                <td>{{chart.units}}</td>
+                <td>{{chart.mostRecentValue}}</td>
+                <td>{{chart.mostRecentTimestamp | date : 'medium'}}</td>
+              </tr>
+            </tbody>
+
+
+         
+          </table>
+
+         
+        </div>
+      </div>

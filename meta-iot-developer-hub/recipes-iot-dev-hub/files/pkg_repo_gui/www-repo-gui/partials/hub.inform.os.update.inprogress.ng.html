@@ -1,0 +1,27 @@
+<div class="admin-step">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{title_message}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 wr-logo-max">
+            <div class="wind-river-logo modal-wr-logo">
+                <img src="images/wind-river-logo.svg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%;">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="wind-river-logo-txt">Wind River&reg; Linux 7</div>
+            <div class="description">{{description_message}}</div>
+        </div>
+    </div><!-- .row -->
+    <div class="progress-bar-block">
+        <div class="blue-modal-text">{{bar_before_message}}</div>
+        <div class="progress-bar-iot">
+            <div class="progress-bar-indicator progress-bar progress-bar-striped active" role="progressbar" style="width: 100%;"></div>
+        </div>
+        <div ng-if="bar_after_message" class="post-activity-msg">{{bar_after_message}}</div>
+        <div ng-if="error_message" class="post-activity-msg" style="color: red">{{error_message}}</div>
+        <button ng-if="show_close_button" ng-action="closeModal()">close</button> <!-- need this if reset fails -->
+    </div>
+</div><!-- /.admin-step -->

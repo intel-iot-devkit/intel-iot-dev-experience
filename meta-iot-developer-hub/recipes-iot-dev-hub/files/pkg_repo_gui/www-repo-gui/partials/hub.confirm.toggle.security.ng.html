@@ -1,0 +1,34 @@
+<div class="admin-step">
+    <h1 ng-if="!toggled_security">{{security_enabled ? 'Disable' : 'Enable'}} Security?</h1>
+    <h1 ng-if="toggled_security">Security now {{security_enabled ? 'disabled' : 'enabled'}}.</h1>
+
+    <div ng-if="!toggled_security">
+        <div ng-if="security_enabled">
+        HTTPS security is currently enabled on the Gateway device using port {{https_port}}. Use the button here to disable HTTPS and switch to insecure HTTP. By clicking here, the server will be restarted and then you will be forwarded to {{httpurl}} where you will be required to login. This process may take a few minutes.
+        </div>
+        <div ng-if="!security_enabled">
+        HTTPS security is currently not enabled on the Gateway device. Use the button here to enable HTTPS. By clicking here, the server will be restarted and then you will be forwarded to {{httpsurl}} where you will be required to login. This process may take a few minutes.
+        </div>
+    </div>
+
+    <div ng-if="toggled_security">
+        Please wait for the server to restart. This may take a few minutes. Please leave this window open. When the server is back up, you will be automatically forwarded to <span ng-if="!security_enabled">{{httpsurl}}.</span><span ng-if="security_enabled">{{httpurl}}.</span>
+    </div>
+
+    <div class="close-admin-modal" ng-click="closeModal()" ng-if="!toggled_security"></div>
+
+    <div class="row">{{message}}</div>
+
+    <div class="row"><span style='color: red;'>{{error_message}}</span></div>
+    <div class="row admin-modal-btn-row">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-if="!toggled_security" ng-click="closeModal()">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div class="blue-button-md admin-modal-btn"  ng-if="!toggled_security"   ng-click="toggleSecurity()">
+                <span ng-if="security_enabled">{{toggling_security ? "Disabling Security..." : "Disable Security"}}</span>
+                <span ng-if="!security_enabled">{{toggling_security ? "Enabling Security..." : "Enable Security"}}</span>
+            </div>
+        </div>
+    </div>
+</div>

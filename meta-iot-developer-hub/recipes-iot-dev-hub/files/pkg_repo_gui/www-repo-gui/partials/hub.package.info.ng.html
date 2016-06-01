@@ -1,0 +1,40 @@
+<div class="view-package">
+    <div class="close-admin-modal" ng-click="closePackageInfo()"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <img src="images/{{ displayed.image }}" class="package-image"><h1>{{displayed.title}}</h1>
+        </div>
+    </div><!-- /.row -->
+    <div class="row">
+        <div class="col-md-7 description">
+            <ul class="list-unstyled">
+                <li>Type: {{displayed.vertical}}</li> <!-- ?? a guess as to what they want here -->
+                <li>Group: {{displayed.group}}</li>
+                <li>Version: {{displayed.version}}</li>
+                <li>Size: {{displayed.size}}</li>
+                <li>License: {{displayed.license}}</li>
+                <li>{{displayed.url}}</li>
+            </ul>
+            <p>{{displayed.description}}.</p>
+        </div>
+        <div class="col-md-5">
+            <div class="view-package-status" ng-if="displayed.service.length>0 && displayed.installed">
+                <span class="status-label">Status:</span>
+                <span class="status-value">{{package_statuses[displayed.name]['running'] ? "Running" : "Stopped"}}</span>
+                <div class="blue-button-md status-button" ng-if="package_statuses[displayed.name]['running']" ng-click="serviceControl(displayed,'stop')">{{stopping_package[displayed.name] ? "Stopping..." : "Stop"}}</div>
+                <div class="blue-button-md status-button" ng-if="!package_statuses[displayed.name]['running']" ng-click="serviceControl(displayed,'start')">{{starting_package[displayed.name] ? "Starting..." : "Start"}}</div>
+
+                <!-- should disable checkbox entirely while enabling_package[displayed.name] is true -->
+                <input type="checkbox" ng-disabled="enabling_package[displayed.name]" ng-model="checkbox.enabled" ng-click="toggleServiceState(checkbox.enabled)">
+                <span ng-if="!service_error" class="auto-run">{{enabling_package[displayed.name] ? "Updating..." : "Enable Auto Run on Startup"}}</span>
+                <span ng-if="service_error" class="auto-run" style="color: red;">{{service_error_message}}</span>
+            </div>
+            <div class="update-install">
+                <div class="blue-button-md update" ng-if="hasupgrade" ng-class="{disabled: !connected}" ng-click="doUpdate(displayed)">{{updated_package[displayed.name] ? "Updated" : (updating_package[displayed.name] ? "Updating..." : "Update")}}</div>
+
+                <div class="blue-button-md uninstall" ng-class="{disabled: !connected}" ng-click="uninstallPackage(displayed)" ng-if="displayed.installed">{{uninstalling_package[displayed.name] ? "Uninstalling..." : "Uninstall"}}</div>
+                <div class="blue-button-md uninstall" ng-class="{disabled: !connected}" ng-click="installPackage(displayed)" ng-if="!displayed.installed">{{installing_package[displayed.name] ? "Installing..." : "Install"}}</div>
+            </div>
+        </div>
+    </div><!-- .row -->
+</div>

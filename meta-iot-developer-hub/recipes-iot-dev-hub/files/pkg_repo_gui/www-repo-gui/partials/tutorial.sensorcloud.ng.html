@@ -1,0 +1,175 @@
+ <div class="tutorial-page">
+    <!-- Header -->
+    <div class="container">
+      <div class="row header">
+        <div class="col-sm-12">
+          <h1>Connect sensor output to cloud in Node-RED</h1>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Overview</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Body -->
+    <div class="container">
+      <div class="row section-body">
+        <div class="col-sm-6">
+          <h3>Connecting gateway to HDC</h3>
+          <p>Connect the gateway to the Wind River&reg; Helix&trade; Device Cloud to send sensor telemetry data to Device Cloud and retrieve it back from the cloud to display on local dashboard.</p>
+        </div>
+        <div class="col-sm-3">
+          <h3>Why?</h3>
+          <p>Demonstrate how-to connect the Intel IoT gateway to the Helix Device Cloud to send telemetry data (default CPU temperature) and retrieve data from the HDC server. </p>
+        </div>
+        <div class="col-sm-3">
+        <h3>Prepare</h3>
+          <p>A)	Gateway is connected to Internet<br/>
+          B)	Complete Tutorial #1: <a href="/#/tutorial/sensorsetup">Setup a Sensor in Node-Red</a><br/> 
+          C) Show info panel using upper-right menu: Toggle Sidebar & click Info tab</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Part 1 of 2:  Send sensor data to Helix Device Cloud</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 1</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Open Node-RED</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Navigate to <strong>Sensors</strong> then click <strong>Manage Sensors</strong> to open Node-Red</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 2</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Import the Helix Device Cloud Tutorial flow</p>
+        </div>
+        <div class="col-sm-9">
+	  <p>From <strong>menu</strong> on upper-right, select <strong>Import > Library > HelixDeviceCloudTutorial</strong> to import the HDC Send Data Flow.</p>
+          <p>Left click to place the flow onto the workspace, placing it around the flow from Tutorial 1.</p>
+          <img src="/images/tutorials/sensorcloud_1_2.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 3</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Connect the sensor</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click & drag to connect the output (right) of the <strong>F to C</strong> function node to the input of the <strong>HDC send temp</strong> exec node.</p>
+	  <img src="/images/tutorials/sensorcloud_1_3.png">
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 4</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Deploy application</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click <strong>Deploy</strong> (upper right) to deploy the flow.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->    
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step last">
+        <div class="col-sm-1">
+          <h3>Step 5</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Debug sensor data (optional)</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Left-click and drag a <strong>debug</strong> node to the right of the <strong>HDC send temp</strong> exec node. Wire the top output of the <strong>HDC send temp</strong> exec node to the input of the <strong>msg.debug</strong> debug node.</p>
+	  <img src="/images/tutorials/sensorcloud_1_5.png">
+	  <p>Deploy the changes (see Step 4).</p>
+          <p>Debug output displays in the debug panel on the right side. Click the Debug tab if needed to expose the panel.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->    
+    
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Part 2 of 2:  Receive data from Helix Device Cloud to display on local graph</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 1</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Send Helix Device Cloud data to Charts</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Connect the output of the new <strong>Temperature</strong> chart tag node to the input of the <strong>Chart</strong> mqtt out node.</p>
+          <img src="/images/tutorials/sensorcloud_2_1.png">
+          <p>This will tag the data received from Helix Device Cloud with the information the charting component needs, then send it to the charts telemetry topic.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 2</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Deploy application</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Click <strong>Deploy</strong> to deploy the changes.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step 3</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>View results on the Intel® IoT Gateway Developer Hub</p>
+        </div>
+        <div class="col-sm-9">
+          <p>View the graphs at top of the Intel® IoT Gateway Developer Hub. The temperature charts should now include a line chart showing real-time data from Helix Device Cloud.</p>
+          <img src="/images/tutorials/sensorcloud_2_3.png"> 
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+</div><!-- /.tutorial-page -->

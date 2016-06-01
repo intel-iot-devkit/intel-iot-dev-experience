@@ -1,0 +1,11 @@
+[Unit]
+Description=Update Service for Intel IoT Developer Hub
+
+[Service]
+Type=oneshot
+EnvironmentFile=/var/www/www-repo-gui/proxy_env
+WorkingDirectory=/var/www/www-repo-gui/python
+ExecStart=/tmp/update-iot-dev-hub.sh
+
+[Install]
+WantedBy=multi-user.target

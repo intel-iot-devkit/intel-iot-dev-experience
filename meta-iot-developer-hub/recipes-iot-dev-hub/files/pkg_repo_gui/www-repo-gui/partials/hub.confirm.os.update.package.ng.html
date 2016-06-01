@@ -1,0 +1,29 @@
+<!-- OS UPDATE STEP 1-->
+<div class="admin-step">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Operating System Updates</h1>
+        </div>
+    </div><!-- /.row -->
+    <div class="row">
+        <div class="col-md-12 description">
+            The following Operating System packages have update available.  Please save and close all work before clicking <strong>Update</strong> to begin the installation. The updating time depends on the number of packages that need to be updated. Once the update process has started it cannot be cancelled.
+            <ul>
+                <!-- need track by $index below so that it will accept duplicate entries -->
+                <li ng-repeat="name in OSUpdate_Packages track by $index">{{ name }}</li>
+           </ul>
+        </div>
+    </div><!-- .row -->
+    <div class="row admin-modal-btn-row">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-click="cancelOSUpdate()">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div class="blue-button-md admin-modal-btn" ng-click="doOSUpdate_Packages()">Update</div>
+        </div>
+    </div><!-- .row -->
+</div><!-- /.admin-step -->
+
+
+
+

@@ -1,0 +1,19 @@
+         <!-- CREATE IMAGE STEP 5-->
+          <div class="admin-step">
+            
+            <h1>Save OS Image: Confirm</h1>
+          
+            <div class="description">
+              Before saving this OS Image to the USB Drive, ensure you've made all desired customizations on this development gateway. It's important to remember that after writing this image, any future changes will not be reflected on this USB Drive without repeating this process.<br/><br/>Saving the OS Image may take a while.
+            </div>
+
+            <div class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal4()">Cancel</div>
+              </div>
+              <div class="col-md-6">
+                <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage5()" ng-class="{disabled: !connected}">Save OS Image</div>
+              </div>
+            </div><!-- .row -->
+          </div><!-- /.admin-step -->
+

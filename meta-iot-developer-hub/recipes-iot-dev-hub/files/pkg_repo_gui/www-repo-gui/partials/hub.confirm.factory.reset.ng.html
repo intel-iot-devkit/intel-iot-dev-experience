@@ -1,0 +1,22 @@
+         <!-- FACTORY RESET OF OS STEP 1-->
+          <div class="admin-step">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Restore Operating System to Factory Default?</h1>
+              </div>
+            </div><!-- /.row -->
+            <div class="row">
+              <div class="col-md-12 description">
+                <p>The original gateway OS and file system will be re-installed and automatically restarted. <br/>Please save your work before continuing. Applications, data, and any configuration changes made to this gateway will be deleted.</p>
+                <p>Warning: This operation is not intended to restore trust to the gateway OS image. If trust has been knowingly compromised or you have doubts, please see the <a href="https://software.intel.com/GatewaySecurity-BestPractices" target="security">Security Best Practices Guide</a>.</p>
+              </div>
+            </div><!-- .row -->
+            <div class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                <div class="cancel-button-md admin-modal-btn" ng-click="cancelFactoryReset()">Cancel</div>
+              </div>
+              <div class="col-md-6">
+                <div class="blue-button-md admin-modal-btn" ng-click="doFactoryReset()">Restore</div>
+              </div>
+            </div><!-- .row -->
+          </div><!-- /.admin-step -->

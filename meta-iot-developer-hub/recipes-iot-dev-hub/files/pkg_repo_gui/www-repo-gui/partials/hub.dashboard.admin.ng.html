@@ -1,0 +1,149 @@
+      <div class="row main admin-tools-body">
+
+        <!-- Main Content Left-->
+        <div class="col-md-6">
+          <div class="iot-panel">
+			<div class="row">
+              <div class="col-md-6">
+            <h1 class="panel-header">Operating System</h1>
+            </div>
+              <div class="col-md-6 updates-upgrades">
+                <!--<div class="blue-button-md install-os-updates col-sm-12" ng-class="{'disabled': hasOSUpdate() == false || !connected}" ng-click="confirmOSUpdate()" >-->
+                <div ng-if="!pro" class="blue-button-md install-os-updates col-sm-12" ng-class="{'disabled': !connected}" ng-click="checkOSUpdate()">
+                    Install OS Updates
+                    <img src="/images/update.svg" class="icon">
+                </div>
+                <div ng-if="pro" class="blue-button-md install-os-updates col-sm-12" ng-class="{'disabled': !connected}" ng-click="enterOSCredential()">
+                    Install OS Updates
+                    <img src="/images/update.svg" class="icon">
+                </div>
+                <div class="blue-button-md col-sm-12"  uib-tooltip="Unlock the Intel&reg; IoT Gateway Pro Software Suite today!" ng-class="{'disabled': pro || !connected}" ng-click="onClickUpgrade()">
+                    Upgrade to Pro
+                    <img src="/images/update.svg" class="icon">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="iot-gateway-ss">
+                  <span>Intel &reg; IoT Gateway Software Suite </span>
+              	<ul>
+               		<li>WindRiver &reg; Linux 7, 3.14 Kernel</li>
+              		<li ng-if="mec.enabled">McAfee Embedded Control {{mec.type}}</li>
+              	</ul>
+                </div>
+
+
+              </div>
+
+            </div><!-- /.row -->
+
+              <div class="detail">
+                <div class="col-sm-5" >
+                  <div class="blue-button-sm os-button" ng-click="confirmRestartOS()">Restart OS</div>
+                </div>
+
+                <div class="iot-panel-int-txt col-sm-7">
+                  To restart the system and apply all installed updates, select <b>Restart OS</b>.
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="detail">
+                <div class="col-sm-5">
+                 <div class="blue-button-sm os-button" ng-class="{'disabled': !mec.installed}" ng-click="onClickSaveOSImage()">Save OS Image</div>
+                </div>
+                
+                <div class="iot-panel-int-txt col-sm-7" ng-show="pro">
+                    Save your OS image to a USB Flash Drive. This will save your image with additional security policies applied for deployment onto other Intel&reg; IoT Gateways.
+                </div>
+                <div class="iot-panel-int-txt col-sm-7" ng-hide="pro">
+                   Save your OS image to a USB Flash Drive. This will save your image with additional security policies applied. For production deployments, an upgrade to Pro is recommended.   <a href ng-click="onClickUpgrade()" class="blue-highlight"  ng-class="{'disabled': !connected}">Upgrade to Pro</a>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="detail">
+                <div class="col-sm-5">
+                  <div class="blue-button-sm os-button" ng-click="openChangePassModal0()">Change Password</div>
+                </div>
+                <div class="iot-panel-int-txt col-sm-7">
+                    Select <b>Change Password</b> to edit the password for pre-loaded Operating System user accounts.
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="detail">
+                <div class="col-sm-5">
+                  <div class="blue-button-sm os-button" ng-click="confirmFactoryReset()">Restore to Factory OS</div>
+                </div>
+                <div class="iot-panel-int-txt col-sm-7">
+                    To erase the drive and reinstall the OS from the embedded backup volume, select <b>Restore to Factory OS</b>. Be sure to save your work.  For a secure restore of the OS, see the <a href="https://software.intel.com/GatewaySecurity-BestPractices" target="security">Security Guide</a>.
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+        </div><!-- /.col-md-6 -->
+
+        <div class="col-md-6 column-nested">
+
+          <div class="col-md-12">
+            <div class="iot-panel">
+              <h1 class="panel-header">Quick Tools</h1>
+              <div class="col-xs-3">
+                <img src="/images/node-red-logo.png" class="tool-logo" uib-tooltip="Try Node-Red to explore building apps on the gateway using a visual programming interface.">
+                <div class="blue-button-sm" ng-click="launchQuickTools('nodered')">Launch</div>
+              </div>
+
+              <div class="col-xs-3">
+                <img src="/images/double-helix-logo.png" class="tool-logo" uib-tooltip="Try Wind River&reg; Helix&trade; App Cloud to explore building apps in the cloud.">
+                <div class="blue-button-sm" ng-click="launchQuickTools('helix')" ng-class="{'disabled': !connected}">Launch</div>
+              </div>
+
+              <div class="col-xs-3">
+                <img src="/images/luci-logo.png" class="tool-logo" uib-tooltip="Configure administrative settings on your gateway.">
+                <div class="blue-button-sm" ng-click="launchQuickTools('luci')">Launch</div>
+              </div>
+
+              <div class="col-xs-3">
+                <img src="/images/cloudcmd-logo.png" class="tool-logo" uib-tooltip="Cloud Commander web console, file manager, and editor.">
+                <div class="blue-button-sm" ng-click="launchQuickTools('cloudcmd')">Launch</div>
+                </div>
+
+              <div class="clearfix"></div>
+
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="iot-panel">
+              <h1 class="panel-header">Connection Details</h1>
+              <div class="detail">
+                <div class="iot-panel-int-txt col-sm-8 connection-detail" ng-if="!security_enabled">
+                  Your connection on DevHub is currently not secured (http://).
+                  Enabling security (https://) will ensure your activity on DevHub is secure.
+                </div>
+                <div class="iot-panel-int-txt col-sm-8 connection-detail" ng-if="security_enabled">
+                  Your connection on DevHub is currently secured (https://).
+                  Disabling security (http://) will mean that your activity on DevHub will be insecure.
+                </div>
+                
+                <div class="col-sm-4 blue-button-sm" ng-click="confirmToggleSecurity()">
+                  <div ng-if="security_enabled">{{toggling_security ? "Disabling..." : "Disable"}}</div>
+                  <div ng-if="!security_enabled">{{toggling_security ? "Enabling..." : "Enable"}}</div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <div class="detail">
+                <div class="iot-panel-int-txt col-sm-8 connection-detail">
+                  Configure your proxy to manage your internet connection default access methods. This will ensure you are properly connected to the internet and able to use all DevHub features.
+                </div>
+                <div class="col-sm-4 blue-button-sm" ng-click="configureNetwork()">Configure</div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+

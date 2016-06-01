@@ -1,0 +1,42 @@
+<!-- OS UPDATE STEP 1-->
+<div class="admin-step">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Operating System Updates</h1>
+    </div>
+  </div><!-- /.row -->
+  <div class="row">
+    <div ng-if="do_enter_credential" class="col-md-12 description">
+      Before checking available updates, some information is required.
+    </div>
+    <div ng-if="do_confirm_update" class="col-md-12 description">
+      There's a new version of the Wind River Linux OS.  Please save and close all work before clicking <strong>Update</strong> to begin the installation. This update might take an hour. Once the update process has started it cannot be cancelled.
+    </div>
+  </div><!-- .row -->
+  <div ng-if="do_enter_credential" class="row col-md-12">
+    <div class="modal-interior-box col-md-6">
+      <h1 class="modal-interior-box-h1">Please enter your pro credentials</h1>
+      <div class="input-block">
+        <div class="user-icon"></div>
+        <input type="text" class="form-control" placeholder="Username" ng-model="credentials.username">
+      </div>
+      <div class="input-block">
+        <div class="lock-icon"></div>
+        <input type="password" class="form-control" placeholder="Current Password" ng-model="credentials.password">
+      </div>
+    </div>
+  </div>
+  <div class="row admin-modal-btn-row">
+    <div class="col-md-6">
+      <div class="cancel-button-md admin-modal-btn" ng-click="cancelOSUpdate()">Cancel</div>
+    </div>
+    <div class="col-md-6">
+      <div ng-if="do_enter_credential" class="blue-button-md admin-modal-btn" ng-click="continueChecking()">Continue</div>
+      <div ng-if="do_confirm_update" class="blue-button-md admin-modal-btn" ng-click="doOSUpdate()">Update</div>
+    </div>
+  </div><!-- .row -->
+</div><!-- /.admin-step -->
+
+
+
+

@@ -1,0 +1,17 @@
+[DefaultRepo]
+base_repo = https://download.01.org/iotgateway/
+
+[HDC]
+config = False
+
+[ProRepo]
+enable_pro = False
+baytrail = https://windshare.windriver.com/remote.php/webdav/WR-IDP-3-XT-Intel-Baytrail-pro-repo/directory.xml
+quark = https://windshare.windriver.com/remote.php/webdav/WR-IDP-3-XT-Intel-Quark-pro-repo/directory.xml
+
+[BaseRepo]
+baytrail = https://distro.windriver.com/release/idp-3-xt/public_feeds/WR-IDP-3-XT-Intel-Baytrail-public-repo/directory.xml
+quark = https://distro.windriver.com/release/idp-3-xt/public_feeds/WR-IDP-3-XT-Intel-Quark-public-repo/directory.xml
+
+[SecurityAutomation]
+secure_http = False

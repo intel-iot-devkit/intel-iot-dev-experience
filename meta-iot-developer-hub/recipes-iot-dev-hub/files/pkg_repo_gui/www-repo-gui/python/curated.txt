@@ -1,0 +1,182 @@
+[
+  {
+    "name": "node",
+    "image": "nodejs.png",
+    "title": "NodeJS ",
+    "summary": "A cross-platform JavaScript runtime environment.",
+    "url": "https://nodejs.org/",
+    "description": "A cross-platform JavaScript runtime environment built on Chrome's V8 JavaScript engine.",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },
+  {
+    "name": "node-red",
+    "image": "node-red-logo.png",
+    "title": "Node-RED",
+    "summary": "A visual rapid prototyping tool.",
+    "url": "http://nodered.org/",
+    "description": "A visual rapid prototyping tool which facilitates wiring together hardware and software components in an Internet of Things system.",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },
+  {
+    "name": "node-red-experience",
+    "image": "node-red-logo.png",
+    "title": "Node-RED",
+    "summary": "Developer experience package for Node-RED",
+    "url": "http://nodered.org/",
+    "description": "A collection of flows, scripts, and functions that makes it easy to get started on the Intel IoT Gateway using Node-RED.",
+    "vertical": "",
+    "service": ["node-red-experience.service"],
+    "launch": ""
+  },
+  {
+    "name": "eusclient",
+    "image": "intel-package.png",
+    "title": "Intel® Edge Update Service",
+    "summary": "Over-the-air software manageability and security.",
+    "url": "",
+    "description": "Intel's manageability software package with the ability to perform over-the-air software updates and enable security features.",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },
+  {
+    "name": "apache2",
+    "image": "packages.png",
+    "title": "Apache Http Server",
+    "summary": "Apache Http Server",
+    "url": "",
+    "description": "Apache Http Server",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },
+  {
+    "name": "alljoyn",
+    "image": "packages.png",
+    "title": "AllJoyn",
+    "summary": "Sensor connectivity framework",
+    "url": "",
+    "description": "Sensor connectivity framework",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },
+  {
+    "name": "node-aws-sdk",
+    "image": "packages.png",
+    "title": "Amazon SDK for Node.JS",
+    "summary": "JavaScript APIs for AWS",
+    "url": "https://aws.amazon.com/sdk-for-node-js/",
+    "description": "",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },
+  {
+    "name": "python-boto3",
+    "image": "packages.png",
+    "title": "Amazon SDK for Python",
+    "summary": "Python APIs for AWS",
+    "url": "http://aws.amazon.com/sdk-for-python/",
+    "description": "",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "azure",
+    "image": "packages.png",
+    "title": "",
+    "summary": "JavaScript Azure API",
+    "url": "",
+    "description": "JavaScript Azure API",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "bacnet-stack",
+    "image": "packages.png",
+    "title": "",
+    "summary": "An open source BACnet protocol stack for embedded systems",
+    "url": "http://bacnet.sourceforge.net/",
+    "description": "An open source BACnet protocol stack for embedded systems",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "coap",
+    "image": "packages.png",
+    "title": "CoAP",
+    "summary": "Sensor and Cloud communication protocol",
+    "url": "",
+    "description": "Sensor and Cloud communication protocol",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "iotivity",
+    "image": "packages.png",
+    "title": "OIC",
+    "summary": "IoTivity Sensor Connectivity framework",
+    "url": "",
+    "description": "IoTivity Sensor Connectivity framework",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "libmodbus",
+    "image": "packages.png",
+    "title": "Modbus",
+    "summary": "A Modbus library for Linux",
+    "url": "http://libmodbus.org/",
+    "description": "libmodbus is a free software library to send/receive data according to the Modbus protocol. This library is written in C and supports RTU and TCP communications.",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "mono",
+    "image": "packages.png",
+    "title": "Mono",
+    "summary": ".NET Compatibility",
+    "url": "",
+    "description": ".NET Compatibility",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "openjdk8",
+    "image": "packages.png",
+    "title": "OpenJDK8",
+    "summary": "Cross-platform run-time environment",
+    "url": "",
+    "description": "Cross-platform run-time environment",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },{
+    "name": "python3",
+    "image": "packages.png",
+    "title": "Python3",
+    "summary": "Cross-platform run-time environment",
+    "url": "",
+    "description": "Cross-platform run-time environment",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  },
+  {
+    "name": "xmpp",
+    "image": "packages.png",
+    "title": "XMPP",
+    "summary": "Messaging protocol",
+    "url": "",
+    "description": "Messaging protocol",
+    "vertical": "",
+    "service": "",
+    "launch": ""
+  }
+]
+

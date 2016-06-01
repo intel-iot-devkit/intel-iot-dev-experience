@@ -1,0 +1,20 @@
+           <div class="admin-step">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>Update Untrusted Packages?</h1>
+              </div>
+            </div><!-- /.row -->
+            <div class="row">
+              <div class="col-md-12 description">
+                {{message}}
+              </div>
+            </div><!-- .row -->
+            <div class="row admin-modal-btn-row">
+              <div class="col-md-6">
+                  <div class="cancel-button-md admin-modal-btn" ng-click="closeModal()">No</div>
+              </div>
+              <div class="col-md-6">
+                  <div class="blue-button-md admin-modal-btn" ng-click="trustToUpdate()" ng-class="{disabled: !connected}">Yes</div>
+              </div>
+            </div><!-- .row -->
+          </div><!-- /.admin-step -->

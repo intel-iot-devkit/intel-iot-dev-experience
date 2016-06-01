@@ -1,0 +1,72 @@
+          <!-- CREATE IMAGE STEP 8-->
+          <div class="admin-step">
+            <h1>Deploy OS Image to Another Gateway</h1>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="description">
+                  To deploy the new image, remove the USB Flash Drive from the development gateway (#1) and follow the steps below:
+                </div>
+                <ol type="1" class="deploy-step">
+                  <li>
+                    <div class="deploy-step-title">Setup keyboard and monitor </div>
+                    <div class="deploy-step-description">
+                      <p>Install keyboard and monitor on 2nd gateway.</p> 
+                      <p>May need to use serial console connection instead of using direct keyboard and monitor.</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-title">Insert USB flash drive containing OS image into a 2nd gateway and Reboot</div>
+                  </li>
+                  <li>
+                    <div class="deploy-step-title">Check boot device</div>
+                    <div class="deploy-step-description">
+                        <p>Some gateways use USB device as the first boot device. If this is not the case, remove the primary internal memory device (e.g., SD card) to boot from USB device. After booting up, insert the SD card back again.</p>
+                    </div>
+                  </li>
+                </ol>
+                 
+              </div>
+                  
+              <div class="col-md-6">
+                <div class="deploy-to-another create-image-img"></div> 
+              </div>
+              
+              <div class="close-admin-modal" ng-click="closeModal()"></div>
+            </div><!-- /.row -->
+            
+            <div class="row">
+              <div class="col-md-12">
+                  <ol class="deploy-step">
+                    <li value="4">
+                      <div class="deploy-step-title">Login and deploy</div>
+                      <div class="deploy-step-description">
+                        <p>At Linux command line, login as gwuser with password used during Save OS Image.</p>
+                        <p>Deploy OS image from USB flash drive to gateway #2 entering:   <strong>sudo deploytool -C -F -Y -y -d /dev/mmcblk0</strong></p>
+                      </div>
+                    </li>
+                    
+                    <li>
+                      <div class="deploy-step-title">Reboot</div>
+                      <div class="deploy-step-description">
+                        <ol>
+                          <li>At command line enter: <strong>sudo reboot</strong></li>
+                          <li>Remove the USB flash drive</li>
+                        </ol>
+                      </div>
+                    </li>
+                    
+                    <li>
+                      <div class="deploy-step-title">Test your IoT application on gateway #2</div>
+                      <div class="deploy-step-description">It is highly recommended to retest your IoT application on the newly created gateway. Enabling security capabilities can result in unwanted software behavior.<br/>
+                        For maintenance as needed, login as <strong>gwuser</strong>.
+                      </div>
+                    </li>
+                  </ol>
+                </div>
+                
+                <div class="description">NOTE: <a ng-click="openSaveDeployTutorial()">Save and Deploy Image tutorial</a> decribes the full steps to save and deploy an OS image. 
+                  For this and all other tutorials, see the <a ng-click="openDocumentation()">Documentation</a> menu.</div>
+                </div>
+              </div>
+             </div><!-- /.row -->
+          </div><!-- /.admin-step -->

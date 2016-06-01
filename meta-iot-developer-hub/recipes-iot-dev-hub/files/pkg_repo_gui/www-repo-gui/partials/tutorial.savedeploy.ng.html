@@ -1,0 +1,243 @@
+ <div class="tutorial-page">
+   
+    <!-- Header -->
+    <div class="container">
+      <div class="row header">
+        <div class="col-sm-12">
+          <h1>Save and Deploy OS Image</h1>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Overview</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Body -->
+    <div class="container">
+      <div class="row section-body">
+        <div class="col-sm-6">
+          <p>Create a deployable OS Image for production use based on the OS and software running on this gateway. 
+              The deployment OS image includes all applications, data files, and OS updates from the running gateway, 
+              but changes are made to the OS settings and some configuration files to harden the OS to provide better security in a deployment environment. 
+              The OS image is hardened and saved to a USB drive while leaving the development gateway OS unchanged. 
+              No changes are made to your running gateway. Only the new OS image on the USB drive is modified.</p>
+        </div>
+        <div class="col-sm-3">
+        <h3>Why?</h3>
+          <p>The replicated image can quickly be deployed onto another system for evaluation & testing. This enables validation of an IOT system prior to field deployment.</p>
+        </div>
+        <div class="col-sm-3">
+        <h3>Prepare</h3>
+          <p>A) Create your custom IoT application per your business goals<br>
+          B) Configure the gateway OS and network setup via LuCI including WiF settings, network setup, hostname, etc.<br>
+          C) Provide a 8GB USB drive for storing the OS image.<br>
+          </p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Save OS Image</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;1</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Begin</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Navigate to <strong>Administration</strong> then select <strong>Save OS Image</strong></p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;2</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Insert USB into development gateway</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Insert 8GB USB flash drive<br>Any existing data on the USB drive will be deleted.</p>
+          <img src="images/tutorials/tut-4-1.svg" style="width: 9rem;">
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;3</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Select & Confirm USB</p>
+        </div>
+        <div class="col-sm-9">
+          <p>View selection of available USB drives. Select the desired drive.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;4</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Review & Confirm Configuration</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Confirm the OS configuration and set passwords for OS image about to be written.</p>
+
+          <p>If necessary, use LuCI to modify OS (network, WiFi, hostname, etc.).<br>
+          The administrative accounts of Linux and McAfee Embedded Control are secured independently, offering protection for Linux administrators and security operations.</p>
+
+          <p>Writing the OS image may take up to an hour for the OS, applications and data to be written onto a USB drive.</p>
+
+          <img src="images/tutorials/tut-4-2.svg" style="width: 13rem;">
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step last">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;5</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>View Success confirmation</p>
+        </div>
+        <div class="col-sm-9">
+          <p>After OS image saved, remove USB drive from development gateway</p>
+          <img src="images/tutorials/tut-4-3.svg" style="width: 9rem;">
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+        <!-- Section Title -->
+    <div class="container">
+      <div class="row section-title">
+        <div class="col-sm-12">
+          <h2>Deploy</h2>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;1</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Setup keyboard and monitor</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Install keyboard and monitor on 2nd gateway.</p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;2</h3>
+        </div>
+        <div class="col-sm-2"> 
+          <p>Insert USB & reboot</p>
+        </div>
+        <div class="col-sm-9">
+          <p>Insert USB flash drive containing OS image into a 2nd gateway and Reboot</p>
+          <img src="images/tutorials/tut-4-4.svg" style="width: 9rem;">
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;3</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Setup BIOS and Secure Boot</p>
+        </div>
+        <div class="col-sm-9">
+            <ol>
+                <li>Upon reboot quickly enter BIOS setup<sup>*</sup></li>
+                <li>Ensure BIOS is 64 bit (not 32 bit)<sup>*</sup></li>
+                <li>Set 1st boot priority = UEFIL via USB (make note of the internal storage device name)</li>
+                <li>Save & exit BIOS Setup, then reboot</li>
+            </ol>
+            <p>
+                <sup>*</sup> See gateway manufacturer for BIOS Setup instructions<br/>
+                <a href="https://software.intel.com/en-us/SetupGateway-hardware" target="_blank">Read about BIOS setup</a><br/>
+                <a href="https://software.intel.com/GatewaySecurity-BestPractices" target="_blank">Read about Secure Boot setup</a>
+            </p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;4</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Login & deploy</p>
+        </div>
+        <div class="col-sm-9">
+          <p>At Linux command line, login with admin account and password</p>
+          <p>Deploy OS image from USB flash drive to gateway entering:   <strong>sudo deploytool -C -F -Y -y -d /dev/sda</strong></p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;5</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Reboot &amp; reset BIOS setting</p>
+        </div>
+        <div class="col-sm-9">
+            <ol>
+                <li>At command line enter: <strong>sudo reboot</strong></li>
+                <li>Upon boot up, quickly enter BIOS setup</li>
+                <li>Ensure 1st boot priority = UEFI using internal storage device</li>
+                <li>Remove the USB flash drive</li>
+                <li>Save & exit BIOS Setup, then reboot.</li>
+            </ol>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+      <div class="row section-step last">
+        <div class="col-sm-1">
+          <h3>Step&nbsp;6</h3>
+        </div>
+        <div class="col-sm-2">
+          <p>Test your IoT application on gateway&nbsp;#2</p>
+        </div>
+        <div class="col-sm-9">
+            <p>It is highly recommended to retest your IoT application on the newly created gateway. Enabling security capabilities can result in unwanted software behavior.</p>
+            <p>For maintenance as needed, login as <strong>gwuser</strong></p>
+        </div>
+      </div><!-- /.row .header -->
+    </div><!-- /.container -->
+    
+</div><!-- /.tutorial-page -->
