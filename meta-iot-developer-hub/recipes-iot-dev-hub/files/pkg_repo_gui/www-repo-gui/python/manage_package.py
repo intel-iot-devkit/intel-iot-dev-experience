@@ -805,7 +805,6 @@ def get_data():
         output = my_file.read().decode('string_escape')
         my_file.close()
         return output
-    # [Errno 2] No such file or directory: '/tmp/test.txt'
     # except IOError:
         # network_checker = network_ops.NetworkCheck()
         # if network_checker.get_stored_https_status() and network_checker.get_stored_http_status():

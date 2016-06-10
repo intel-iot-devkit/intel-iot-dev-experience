@@ -418,22 +418,15 @@ class OSUpdate(object):
 
         result = {'status': 'failure', 'message': '', 'in_progress': False}
 
+        self.__network_checker.test_network_connection()
+        if not self.__network_checker.get_stored_https_status():
+            result['message'] = 'Gateway does not have network connection to the repositories.'
+            return json.dumps(result)
+
         try:
             header_cl = cherrypy.request.headers['Content-Length']
             cl_content = cherrypy.request.body.read(int(header_cl))
             kwargs = json.loads(cl_content)
-
-            # do not do this if this is checking, not submitting
-            check_network = True
-            if 'is_checking' in kwargs:
-                if kwargs['is_checking'] == 'True':
-                    check_network = False
-            if check_network:
-                self.__network_checker.test_network_connection()
-                if not self.__network_checker.get_stored_https_status():
-                    result['message'] = 'Gateway does not have network connection to the repositories.'
-                    return json.dumps(result)
-
             # grab credential
             user_name = ''
             password = ''
