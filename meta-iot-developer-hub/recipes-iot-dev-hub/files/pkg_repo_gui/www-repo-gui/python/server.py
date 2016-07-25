@@ -118,12 +118,26 @@ if __name__ == '__main__':
 
     # Server config
     cherrypy.config.update({
+        'engine.autoreload.on': False,
         'tools.sessions.on': True,
         'tools.sessions.timeout': manage_config.cherrypy_session_timeout_chosen,
         'tools.sessions.storage_type': "file",
         'tools.sessions.storage_path': temp_sessions_dir,
         'tools.auth.on': True
     })
+
+    # https://github.com/Vungle/cherrypy-3.2.4/blob/master/cherrypy/_cpconfig.py
+    # http://docs.cherrypy.org/en/latest/pkg/cherrypy.process.html
+    # Approach 1: Totally disable autoreload via engine.autoreload.on.
+    # The package installer and systemd will be responsible to restart Dev Hub upon upgrading.
+    # Approach 2: The following will only match the files of Dev Hub.
+    # Therefore, CherryPys autoreload will only consider Dev Hub files, not general Python files.
+    # tools cover all files in tools folder
+    # Need to add files to the list if Dev Hub has new files.
+    # cherrypy.engine.autoreload.match = '^(server|manage_|tools)'
+    # Approach 3: The following is negative lookahead, and it will discard any changes to subprocess and platform files.
+    # However, we cannot use that, as /usr/lib64/python2.7/ folders have too many python files to consider here.
+    # cherrypy.engine.autoreload.match = '^(?!(subprocess|platform)).+'
 
     mimetypes.types_map['.svg'] = 'image/svg+xml'
     mimetypes.types_map['.svgz'] = 'image/svg+xml'

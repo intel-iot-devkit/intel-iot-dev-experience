@@ -5,6 +5,7 @@
 
 from manage_auth import require
 from tools import shell_ops, logging_helper
+import manage_config
 import json
 import os
 import manage_worker
@@ -25,6 +26,25 @@ class DevHubUpdate(object):
             os.unlink(self.__script)
         except:
             # the file may not exist..
+            pass
+
+        # mark dev hub as no update
+        # We need this in case that the package list file is not updated due to some network glitch.
+        # Once the network is back on, the package list file will be updated.
+        # So this is just for user friendliness until package list file is updated.
+        try:
+            temp_config_file = open(manage_config.package_data_file, 'r')
+            temp_output = temp_config_file.read().decode('string_escape')
+            temp_config_file.close()
+            import json
+            temp_output_json = json.loads(temp_output)
+            for json_entry in temp_output_json:
+                if json_entry['name'] == 'iot-developer-hub':
+                    json_entry['upgrade_version'] = ''
+
+            with open(manage_config.package_data_file, 'w') as my_file:
+                my_file.write(json.dumps(temp_output_json))
+        except:
             pass
 
         try:

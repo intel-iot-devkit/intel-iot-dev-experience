@@ -181,14 +181,22 @@ class Auth(object):
         kwargs = json.loads(cl_content)
 
         first_pass = False
-        if kwargs['do_auth'] == 'False':
-            first_pass = True
-        else:
+
+        if 'do_auth' not in kwargs:
             auth_check = authenticate_user(kwargs['username'], kwargs['password'])
             if auth_check['status'] == 'success':
                 first_pass = True
             else:
                 pass
+        else:
+            if kwargs['do_auth'] == 'False':
+                first_pass = True
+            else:
+                auth_check = authenticate_user(kwargs['username'], kwargs['password'])
+                if auth_check['status'] == 'success':
+                    first_pass = True
+                else:
+                    pass
 
         if first_pass:  # authentication worked
             return_result['status'] = 'success'
