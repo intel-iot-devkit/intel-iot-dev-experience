@@ -1,123 +1,210 @@
- <div class="tutorial-page">
-   <!-- Header -->
+<div class="tutorial-page">
+    <!-- Header -->
     <div class="container">
-      <div class="row header">
-        <div class="col-sm-12">
-          <h1>Setup a sensor in Node-Red</h1>
-        </div>
-      </div><!-- /.row .header -->
+        <div class="row header">
+            <div class="col-sm-12">
+                <h1>Setup a pre-defined sensor in Node-Red</h1>
+            </div>
+        </div><!-- /.row .header -->
     </div><!-- /.container -->
+
     <!-- Section Title -->
     <div class="container">
-      <div class="row section-title">
-        <div class="col-sm-12">
-          <h2>Overview</h2>
-        </div>
-      </div><!-- /.row .header -->
+        <div class="row section-title">
+            <div class="col-sm-12">
+                <h2>Overview</h2>
+            </div>
+        </div><!-- /.row .header -->
     </div><!-- /.container -->
+
     <!-- Section Body -->
     <div class="container">
-      <div class="row section-body">
-        <div class="col-sm-6">
-          <p>Connect a sensor to the gateway and use Node-Red to automatically read temperature and easily edit a sample Node-Red application to also read humidity.</p>
-          <img src="/images/tutorials/node-red-tut1.png">
-        </div>
-        <div class="col-sm-3">
-        <h3>Why?</h3>
-          <p>Connect a sensor to the gateway and use Node-Red to automatically read temperature and easily edit a sample Node-Red application to also read humidity.</p>
-        </div>
-        <div class="col-sm-3">
-        <h3>Prepare</h3>
-          <p>Plug the RH-USB temperature / humidity sensor in to any open USB port on the gateway.</p>
-        </div>
-      </div><!-- /.row .header -->
+        <div class="row section-body">
+            <div class="col-sm-6">
+                <p>Connect a sensor to the gateway and use Node-Red to automatically read temperature, edit a sample Node-Red application, and deploy it to read humidity</p>
+                <img src="/images/tutorials/node-red-tut1.png">
+            </div>
+            <!--
+            <div class="col-sm-3">
+                <h3>Why?</h3>
+                <p>Connect a sensor to the gateway and use Node-Red to automatically read temperature and easily edit a sample Node-Red application to also read humidity.</p>
+            </div>
+            -->
+        </div><!-- /.row .header -->
     </div><!-- /.container -->
+
     <!-- Section Title -->
     <div class="container">
-      <div class="row section-title">
-        <div class="col-sm-12">
-          <h2>Connect gateway to pre-defined sensor</h2>
-        </div>
-      </div><!-- /.row .header -->
+        <div class="row section-title">
+            <div class="col-sm-12">
+                <h2>Steps</h2>
+            </div>
+        </div><!-- /.row .header -->
     </div><!-- /.container -->
-    <!-- Section Step -->
-    <div class="container">
-      <div class="row section-step">
-        <div class="col-sm-1">
-          <h3>Step&nbsp;1</h3>
-        </div>
-        <div class="col-sm-2">
-          <p>Open Node-Red</p>
-        </div>
-        <div class="col-sm-9">
-          <p>Navigate to Sensors then click <strong>Manage Sensors</strong> to open Node-Red.</p>
-        </div>
-      </div><!-- /.row .header -->
-    </div><!-- /.container -->
-    <!-- Section Step -->
-    <div class="container">
-      <div class="row section-step">
-        <div class="col-sm-1">
-          <h3>Step&nbsp;2</h3>
-        </div>
-        <div class="col-sm-2">
-          <p>Show info panel</p>
-        </div>
-        <div class="col-sm-9">
-          <p>A default node-red flow has been included.  In this flow, an inject node triggers the RH-USB sensor  to provide the current temperature and humidity every second.  The temperature data then goes through a function node that changes the temperate reading to Celsius and rounds the value down to the nearest tenth.  That value then goes through the chart node for formatting and then to the mqtt node.  The Intel® IoT Gateway Developer Hub watches the mqtt service on the gateway and automatically displays and data published to the /sensor topic.  Notice how the Humidity chat node is not connected to the RH-USB node.</p>
-          <img src="/images/tutorials/node-red-tut2.png">
-          <img src="/images/tutorials/node-red-tut3.png">
-        </div>
-      </div><!-- /.row .header -->
-    </div><!-- /.container -->
-    <!-- Section Step -->
-    <div class="container">
-      <div class="row section-step">
-        <div class="col-sm-1">
-          <h3>Step&nbsp;3</h3>
-        </div>
-        <div class="col-sm-2">
-          <p>Add Humidity reading to flow</p>
-        </div>
-        <div class="col-sm-9">
-          <p>Wire the second output of the RH-USB sub-flow node to the input of the Humidity chart node.</p>
 
-          <p>Click the output point (on right side) of RH-USB and drag a connection to the input (left side) of Humidity node.  
-          </p>
-          <!-- <img src="/images/tutorials/node-red-tut5.png"> -->
-        </div>
-      </div><!-- /.row .header -->
-    </div><!-- /.container -->
     <!-- Section Step -->
     <div class="container">
-      <div class="row section-step">
-        <div class="col-sm-1">
-          <h3>Step&nbsp;4</h3>
-        </div>
-        <div class="col-sm-2">
-          <p>Deploy updated flow</p>
-        </div>
-        <div class="col-sm-9">
-          <p>Click the Deploy button in the upper right corner.</p>
-        </div>
-      </div><!-- /.row .header -->
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;1</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>Connect sensor</p>
+            </div>
+            <div class="col-sm-9">
+                <p>Plug the RH-USB temperature / humidity sensor into any open USB port on the gateway.</p>
+                <img src="/images/tutorials/connect-sensor-icon.svg" style="width: 15.0rem;">
+            </div>
+        </div><!-- /.row .header -->
     </div><!-- /.container -->
-    <!-- Section Step -->
-    <div class="container">
-      <div class="row section-step last">
-        <div class="col-sm-1">
-          <h3>Step&nbsp;5</h3>
-        </div>
-        <div class="col-sm-2">
-          <p>Test Sensor</p>
-        </div>
-        <div class="col-sm-9">
-          <p>View the Intel® IoT Gateway Developer Hub Dashboard to see the Humidity gauge is now included and displays humidity data.</p>
 
-          <p>Test the sensor by gently breathing on it. You should see the temperature and humidity values change immediately.
-          </p>
-          <img src="/images/tutorials/node-red-tut6.png">
-        </div>
-      </div><!-- /.row .header -->
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;2</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>Open Node-Red</p>
+            </div>
+            <div class="col-sm-9">
+                <p>Navigate to <strong>Sensors</strong> then click <strong>Program Sensors</strong> to open Node-Red.</p>
+                <img src="/images/tutorials/node-red-program-sensors.png" style="width: 70.0rem;">
+            </div>
+        </div><!-- /.row .header -->
     </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;3</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>Explore default flow</p>
+            </div>
+            <div class="col-sm-9">
+                <p>A default Node-Red flow has been included. In this flow, an inject node triggers the RH-USB sensor to provide the current temperature and humidity every second. The temperature data goes through a function node that converts the temperature reading to Celsius and rounds the value down to the nearest tenth. That value goes through the chart node for formatting and then to the <strong>mqtt</strong> node. The Intel® IoT Gateway Developer Hub watches the mqtt service on the gateway and automatically displays and publishes the data to the <strong>/sensor</strong> topic.  Note how the Humidity chat node is not connected to the RH-USB node.</p>
+                <img src="/images/tutorials/node-red-default-flow.png" style="width: 70.0rem;">
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;4</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>Show Info panel</p>
+            </div>
+            <div class="col-sm-9">
+                <p>An Info panel shows the details of each node. To open the Info panel, click the drop-down menu in the upper right corner of Node-Red, and then choose <strong>Sidebar \ Toggle Sidebar</strong>. Click each node to see the details.</p>
+                <img src="/images/tutorials/node-red-tut2.png" style="margin-right: 1.0rem;">
+                <img src="/images/tutorials/node-red-tut3.png">
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;5</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>Add Humidity reading to flow</p>
+            </div>
+            <div class="col-sm-9">
+                <p>Connect the second output of the RH-USB sub-flow node to the input of the Humidity chart node.</p>
+                <p>Click the output point (on right side) of RH-USB and drag a connection to the input (left side) of Humidity node.</p>
+                <img src="/images/tutorials/node-red-connect-humidity.png" style="width: 70.0rem;">
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;6</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>(Optional) Modify the Function node</p>
+            </div>
+            <div class="col-sm-9">
+                <p>The Function node allows you to pass each message though a JavaScript function. Double click teh "F to C" Function node to open the edit dialog.</p>
+                <img src="/images/tutorials/node-red-function-node.png" style="width: 60.0rem;">
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;7</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>Deploy the updated flow</p>
+            </div>
+            <div class="col-sm-9">
+                <p>The <strong>Deploy</strong> button is found in the upper right corner of Node-red. Click the <strong>Deploy</strong> button.</p>
+                <img src="/images/tutorials/node-red-deploy-snapshot.png" style="width: 80.0rem;">
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;8</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>Test sensor</p>
+            </div>
+            <div class="col-sm-9">
+                <p>View the Intel® IoT Gateway Developer Hub Dashboard to see the Humidity gauge that is now included and displays humidity data.</p>
+
+                <p>Test the sensor by gently breathing on it. You should see the temperature and humidity values change immediately.
+                </p>
+                <img src="/images/tutorials/node-red-tut6.png">
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;9</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>(Optional) Export/Import a flow</p>
+            </div>
+            <div class="col-sm-9">
+                <p>An existing flow in JSON format can be imported into Node-Red. To do this, click the drop-down menu in the upper right corner of Node-Red, and then choose <strong>Import \ Clipboard</strong>. Copy the flow JSON into the Clipboard.</p>
+                <p>The current flow on Node-Red can be exported to JSON format. Select all the flow components first and then follow the steps described above but choose <strong>Export</strong> instead of <strong>Import</strong>.</p>
+                <img src="/images/tutorials/node-red-import-flow.png" style="width: 80.0rem;">
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
+    <!-- Section Step -->
+    <div class="container">
+        <div class="row section-step last">
+            <div class="col-sm-1">
+                <h3>Step&nbsp;10</h3>
+            </div>
+            <div class="col-sm-2">
+                <p>(Optional) Create a new node</p>
+            </div>
+            <div class="col-sm-9">
+                <p>A new node can be created if the existing nodes do not meet your needs. Please follow <a target="_blank" href="http://nodered.org/docs/creating-nodes/first-node" class="blue-highlight">the official Node-Red documentation</a>.</p>
+            </div>
+        </div><!-- /.row .header -->
+    </div><!-- /.container -->
+
 </div><!-- /.tutorial-page -->

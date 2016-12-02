@@ -17,7 +17,6 @@ import manage_package
 import manage_worker
 from manage_auth import require
 
-
 sys.path.append('..')
 
 
@@ -427,6 +426,8 @@ def add_repo(url, user_name, password, name, from_startup=False, from_GUI=False,
                     response['error'] = "Failed to add repository: Unable to connect to repository."
                 elif "Invalid XML" in result['cmd_output']:
                     response['error'] = "Failed to add repository: Repository XML file invalid. "
+                elif "server certificate verification failed.":
+                    response['error'] = "Failed to add repository: SSL certificate error. Server certificate verification failed. "
                 else:
                     response['error'] = result['cmd_output'][result['cmd_output'].index("error:") + 7:].replace("\n", "")
             else:
@@ -511,11 +512,14 @@ def update_channels(CheckNetworkAgain=True):
     Returns:
         str: Json string with keys
                 'status' = 'success' or 'failure', and
+                'message' = '', and
                 'p_list' = new packages list
     """
     log_helper = logging_helper.logging_helper.Logger()
+    log_path = "/tmp/uc_log"
     response = ({
-        'status': "failure",
+        'status': 'failure',
+        'message': ''
     })
 
     do_run = False
@@ -527,11 +531,30 @@ def update_channels(CheckNetworkAgain=True):
 
     if do_run:
         # We need this "smart update"... Add repo is relying on this.
-        shell_ops.run_command("smart update")
-        response = ({
-                'status': "success",
-            })
-        log_helper.logger.debug("Successfully updated channel.")
+        up_result = shell_ops.run_cmd_chk("smart update")
+        if up_result['returncode']:
+            if "server certificate verification failed." in up_result['cmd_output']:
+                response['message'] = "Failed to update repository: Repository server certificate verification failed. "
+            else:
+                response['message'] = up_result['cmd_output'][up_result['cmd_output'].index("error:") + 7:].replace(
+                    "\n", "")
+            # Create log for proxy test to display error.
+            try:
+                uc_log = file(log_path, 'w+')
+                uc_log.write(response['message'])
+                uc_log.close()
+            except:
+                pass
+            log_helper.logger.error("Failed to update repository. Error output: '%s'" % response['message'])
+        else:
+            # Clean existing error if one exists.
+            if os.path.isfile(log_path):
+                try:
+                    os.remove(log_path)
+                except:
+                    pass
+            response['status'] = 'success'
+            log_helper.logger.debug("Successfully updated channel.")
         manage_package.update_package_list()
 
     response['p_list'] = manage_package.get_data()
@@ -682,6 +705,7 @@ class Repository(object):
                     # {u'status': u'success',
                     #  u'message': u'{
                     #    'status': '',
+                    #    'message': '',
                     #    'p_list': []
                     #     }',
                     #  u'in_progress': False,
@@ -689,6 +713,7 @@ class Repository(object):
                     # move the key work result to the 1st dictionary item
                     result_dict = ast.literal_eval(worker_result['message'])
                     worker_result['status'] = result_dict['status']  # this can still be 'failure'
+                    worker_result['message'] = result_dict['message']
                     worker_result['p_list'] = result_dict['p_list']
         except Exception as e:
             worker_result['status'] = 'failure'

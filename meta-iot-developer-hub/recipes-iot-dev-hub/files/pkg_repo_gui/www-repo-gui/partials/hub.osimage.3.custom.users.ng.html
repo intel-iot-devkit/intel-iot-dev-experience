@@ -1,0 +1,106 @@
+ <!-- CREATE IMAGE STEP 4-->
+<div class="admin-step">
+    <div class="create-img-progress-bar">
+        <div class="create-img-step">
+            <div class="create-img-step-number">1</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Insert USB Flash Drive</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">2</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Select USB Flash Drive</div>
+        </div>
+        <div class="create-img-step active">
+            <div class="create-img-step-number">3</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Review Configuration</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">4</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Write OS Image to USB Flash Drive</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Custom Security</h1>
+        </div>
+    </div><!-- /.row -->
+    <div class="save-image-custom">
+        <div class="title">Users</div>
+        <div class="description">Manage the user accounts on the deployable image. Toggle the <strong>Allow Access</strong> checkbox to control individual user access to the image. Enter a password and confirm it for each account. (General user accounts with UID >= 1000 are displayed here.)</div>
+
+        <!--getting packages list progress-->
+        <div ng-show="gettingAccount" class="status">
+            <span class="waiting-styling extra_waiting_style">
+                <div class="loader"></div>
+            </span>
+            <div class="blue-modal-text waiting_text">Getting Accounts List......</div>
+        </div>
+
+        <!--error message-->
+        <div ng-show="save_image_has_error" class="status">
+            <div class="blue-modal-text error">{{save_image_error_message}}</div>
+        </div>
+
+        <!--scrollable table-->
+        <perfect-scrollbar id="my_scroll_bar" ps-mouse-over class="scroll-area" wheel-propagation="false" wheel-speed="10" suppress-scroll-x="true">
+            <table ng-if="!save_image_has_error">
+                <tr ng-repeat="user in custom_users_list | orderBy:sortType:sortReverse" >
+                    <td width="7%">
+                        <div class="table-cell table-cell-light">
+                            <div class="toggle">
+                                <label ng-show="user.access" class="input-control expand-input-control expand-input-control-checkbox">
+                                    <input type="checkbox" ng-model="user.expanded"/>
+                                    <div class="input-control-indicator expand-input-control-indicator"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="user.expanded && user.access" class="table-cell table-cell-light table-cell-expanded"></div>
+                    </td>
+                    <td width="73%">
+                        <div class="table-cell table-cell-light">
+                            <div ng-if="user.access" class="name">
+                                {{ user.name}}
+                            </div>
+                            <div ng-if="!user.access" class="name name-no-access">
+                                {{ user.name}}
+                            </div>
+                        </div>
+                        <div ng-if="user.expanded && user.access" class="table-cell table-cell-light table-cell-expanded table-cell-expanded-pw">
+                            <div class="input-block user-input-block">
+                                <div class="lock-icon"></div>
+                                <input type="password" class="form-control text-input" placeholder="Enter new password" ng-model="user.new_password">
+                            </div>
+                            <div class="input-block user-input-block">
+                                <div class="lock-icon"></div>
+                                <input type="password" class="form-control text-input" placeholder="Confirm new password" ng-model="user.confirm_password">
+                            </div>
+                            <div class="password-strength-txt">Password Strength:</div>
+                            <div ng-password-strength="user.confirm_password" strength="passStrength" inner-class="progress-bar" inner-class-prefix="progress-bar-" style="width: 40%"></div>
+                            <div class="password-requirements">Passwords should contain at least 8 characters, include upper and lower case, numerals, and special characters.</div>
+                        </div>
+                    </td>
+                    <td width="20%">
+                        <div class="table-cell table-cell-light">
+                            <div class="check">
+                                <label class="input-control user-access-input-control user-access-input-control-checkbox">Allow Access
+                                    <input ng-disabled="user.disable_toggle" type="checkbox" ng-model="user.access"/>
+                                    <div class="input-control-indicator user-access-input-control-indicator"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="user.expanded && user.access" class="table-cell table-cell-light table-cell-expanded"></div>
+                    </td>
+                </tr>
+            </table>
+        </perfect-scrollbar>
+
+    </div>
+    <div class="row admin-modal-btn-row">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal3_Custom()" ng-class="{disabled: gettingAccount}">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div class="back-button-md admin-modal-btn" ng-click="backOSImageModal3_Custom()" ng-class="{disabled: gettingAccount}">Back</div>
+            <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage3_Custom()" ng-class="{disabled: gettingAccount || save_image_has_error || !connected}">Save and Apply</div>
+        </div>
+    </div><!-- .row -->
+</div><!-- /.admin-step -->

@@ -1,0 +1,87 @@
+ <!-- CREATE IMAGE STEP 4-->
+<div class="admin-step">
+    <div class="create-img-progress-bar">
+        <div class="create-img-step">
+            <div class="create-img-step-number">1</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Insert USB Flash Drive</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">2</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Select USB Flash Drive</div>
+        </div>
+        <div class="create-img-step active">
+            <div class="create-img-step-number">3</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Review Configuration</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">4</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Write OS Image to USB Flash Drive</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Custom Security</h1>
+        </div>
+    </div><!-- /.row -->
+    <div class="save-image-custom">
+        <div class="title">MEC Updaters</div>
+        <div class="description">Add the MEC Updaters that will be available on the deployable image. Be sure to include the full path of the updater; click <strong>Delete</strong> to remove an updater from the list.</div>
+
+        <!--File input bar-->
+        <div ng-hide="checkingFile || save_image_has_error" class="search-row">
+            <div class="search-input search-input-narrow">
+                <input type="text" ng-model="updater_path" placeholder="Enter the full path of the updater to add it to the list below.">
+            </div>
+            <div class="clear-search-button-md admin-modal-btn" ng-show="updater_path" ng-click="clearSearchOSImageModal3_Custom()">X</div>
+            <div class="clear-search-button-md admin-modal-btn" style="font-size: 3.2rem; line-height: 130%" ng-show="updater_path" ng-click="addSearchOSImageModal3_Custom()">+</div>
+        </div>
+
+        <!--error message-->
+        <div ng-show="save_image_has_error" class="search-row">
+            <div class="blue-modal-text error">{{save_image_error_message}}</div>
+        </div>
+
+        <!--getting packages list progress-->
+        <div ng-show="checkingFile" class="search-row">
+            <span class="waiting-styling extra_waiting_style extra_waiting_style_top">
+                <div class="loader"></div>
+            </span>
+            <div class="blue-modal-text waiting_text">Verifying file......</div>
+        </div>
+
+        <!--scrollable table-->
+        <perfect-scrollbar ps-mouse-over class="scroll-area" wheel-propagation="false" wheel-speed="10" suppress-scroll-x="true">
+            <table>
+                <tr ng-repeat="package in custom_updaters_list | filter:search_not_deleted | orderBy:sortType:sortReverse" >
+                    <td width="85%">
+                        <div class="table-cell">
+                            <div class="name">
+                                {{ package.name}}
+                            </div>
+                        </div>
+                    </td>
+                    <td width="15%">
+                        <div class="table-cell">
+                            <div class="check">
+                                <label class="input-control packages-input-control packages-input-control-checkbox">Delete
+                                    <input type="checkbox" ng-model="package.delete"/>
+                                    <div class="package-button-indicator">X</div>
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </perfect-scrollbar>
+
+    </div>
+    <div class="row admin-modal-btn-row">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal3_Custom()" ng-class="{disabled: checkingFile}">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div class="back-button-md admin-modal-btn" ng-click="backOSImageModal3_Custom()" ng-class="{disabled: checkingFile}">Back</div>
+            <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage3_Custom()" ng-class="{disabled: checkingFile || !connected}">Next</div>
+        </div>
+    </div><!-- .row -->
+</div><!-- /.admin-step -->

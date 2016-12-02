@@ -24,14 +24,21 @@ network_check_http = False
 smart_cache_path = '/var/lib/smart/channels'
 smart_cache_file = '/var/lib/smart/cache'
 package_data_file = '/tmp/json_packages.txt'
+package_installed_data_file = '/tmp/json_packages_installed.txt'
+harden_image_packages_config_file = os.path.dirname(__file__) + '/' + 'harden_image_packages'  # note: we are assuming that the directory exists already!!!!
+harden_image_updater_config_file = os.path.dirname(__file__) + '/' + 'harden_image_updater'  # note: we are assuming that the directory exists already!!!!
+harden_image_stig_config_file = os.path.dirname(__file__) + '/' + 'harden_image_stig_selected'  # note: we are assuming that the directory exists already!!!!
+harden_image_stig_all_file = os.path.dirname(__file__) + '/' + 'harden_image_stig.json'  # note: we are assuming that the directory exists already!!!!
 repo_tracking_file = os.path.dirname(__file__) + '/' + 'repo_tracking'  # note: we are assuming that the directory exists already!!!!
 pro_packages_file = os.path.dirname(__file__) + '/' + 'pro_files'  # note: we are assuming that the directory exists already!!!!
+os_update_log_file = os.path.dirname(__file__) + '/' + 'os_update_log'  # note: we are assuming that the directory exists already!!!!
 flex_repo_name = 'WR_Repo_'
 pro_repo_name = 'Pro_Repo_'
 use_new_build_package_database = True
 use_new_get_installed_packages = True
 use_new_list_repos = False  # Do not use new approach since Smart and its cache will be out-of-sync in some way.
 oem_branding_config = {'logo_file': '', 'eula_files': [], 'eula_files_datetime': []}
+node_red_experience_service = 'node-red-experience.service'
 
 
 def read_config_file():

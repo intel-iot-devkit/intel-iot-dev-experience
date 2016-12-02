@@ -1,0 +1,108 @@
+ <!-- CREATE IMAGE STEP 4-->
+<div class="admin-step">
+    <div class="create-img-progress-bar">
+        <div class="create-img-step">
+            <div class="create-img-step-number">1</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Insert USB Flash Drive</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">2</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Select USB Flash Drive</div>
+        </div>
+        <div class="create-img-step active">
+            <div class="create-img-step-number">3</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Review Configuration</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">4</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Write OS Image to USB Flash Drive</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Custom Security</h1>
+        </div>
+    </div><!-- /.row -->
+    <div class="save-image-custom">
+        <div class="title">Packages</div>
+        <div class="description">Select the packages that will be removed from the deployable image. Check the <strong>Remove</strong> checkbox to remove a package from the deployable image. Some packages will always be removed in the deployable image, and you cannot un-check the Remove checkbox for these packages.</div>
+
+        <!--getting packages list progress-->
+        <div ng-show="gettingPackages && !save_image_has_error" class="status">
+            <span class="waiting-styling extra_waiting_style">
+                <div class="loader"></div>
+            </span>
+            <div class="blue-modal-text waiting_text">Getting Packages List......</div>
+        </div>
+
+        <!--error message-->
+        <div ng-show="save_image_has_error" class="status">
+            <div class="blue-modal-text error">{{save_image_error_message}}</div>
+        </div>
+
+        <!--search bar-->
+        <div ng-hide="gettingPackages || save_image_has_error"  class="search-row">
+            <div class="search-package-icon create-image-img"></div>
+            <div class="search-input">
+                <input type="text" ng-model="search_packages.name" ng-model-options="{ debounce: 1000 }" placeholder="Search for packages to add to list.">
+            </div>
+            <div class="clear-search-button-md admin-modal-btn" ng-show="search_packages.name" ng-click="clearSearchOSImageModal3_Custom()">X</div>
+        </div>
+
+        <!--scrollable table-->
+        <perfect-scrollbar id="my_scroll_bar" ps-mouse-over class="scroll-area" wheel-propagation="false" wheel-speed="10" suppress-scroll-x="true">
+            <table ng-if="!search_packages.name">
+                <tr ng-repeat="package in custom_installed_list | filter:search_removed | orderBy:sortType:sortReverse" >
+                    <td width="85%">
+                        <div class="table-cell">
+                            <div class="name">
+                                {{ package.name}}
+                            </div>
+                        </div>
+                    </td>
+                    <td width="15%">
+                        <div class="table-cell">
+                            <div class="check">
+                                <label class="input-control packages-input-control packages-input-control-checkbox">Remove
+                                    <input ng-disabled="package.enforce" type="checkbox" ng-model="package.remove"/>
+                                    <div class="input-control-indicator packages-input-control-indicator"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table ng-if="search_packages.name" class="table_shadow">
+                <tr ng-repeat="package in custom_installed_list | filter:search_packages | orderBy:sortType:sortReverse" >
+                    <td width="85%">
+                        <div class="table-cell move_right_1">
+                            <div class="name">
+                                {{ package.name}}
+                            </div>
+                        </div>
+                    </td>
+                    <td width="15%">
+                        <div class="table-cell move_left_1">
+                            <div class="check">
+                                <label class="input-control packages-input-control packages-input-control-checkbox">Remove
+                                    <input ng-disabled="package.enforce" type="checkbox" ng-model="package.remove"/>
+                                    <div class="input-control-indicator packages-input-control-indicator"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </perfect-scrollbar>
+
+    </div>
+    <div class="row admin-modal-btn-row">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal3_Custom()" ng-class="{disabled: gettingPackages}">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div class="back-button-md admin-modal-btn" ng-click="backOSImageModal3_Custom()" ng-class="{disabled: gettingPackages}">Back</div>
+            <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage3_Custom()" ng-class="{disabled: gettingPackages || save_image_has_error || !connected}">Next</div>
+        </div>
+    </div><!-- .row -->
+</div><!-- /.admin-step -->

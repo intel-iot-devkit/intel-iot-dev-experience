@@ -1,50 +1,59 @@
-      <div class="row main sensors-body">
-        <!-- Main Content Heading -->
-        <div class="col-sm-12 header">
-          <h1>Connected Sensors</h1>
-
-          <div class="blue-button-md manage-sensors-btn" ng-click="doManageSensors()">
-            <span>Manage Sensors</span>
-            <img src="images/white-add.svg" style="width: 1.2rem; height: 1.2rem; display: inline-block; margin-bottom: .2rem;">
-          </div>
+<div class="row main sensors-body">
+    <!-- Content when there is no sensor -->
+    <div ng-if="!sensors_charted.length">
+        <div class="description-no-sensor title-no-sensor">No Connected Sensors</div>
+        <div class="blue-button-md manage-sensors-btn-no-sensor" ng-click="doManageSensors()">
+            <span>Program Sensors</span>
+            <img src="images/white-add.svg" style="width: 1.5rem; height: 1.5rem; display: inline-block; margin-bottom: .2rem;">
         </div>
-        <!-- Main Content Body -->
-        <div class="col-sm-12 body">
-          <table>
+        <div class="description-no-sensor">
+            First time setting up a sensor?
+            <a href="" ng-click="openSensorTutorialModal()" class="blue-highlight">View the Tutorial.</a>
+        </div>
+    </div>
+
+    <!-- Main Content Heading -->
+    <div class="col-sm-12 header" ng-if="sensors_charted.length">
+        <h1>Connected Sensors</h1>
+
+        <div class="blue-button-md manage-sensors-btn" ng-click="doManageSensors()">
+            <span>Program Sensors</span>
+            <img src="images/white-add.svg" style="width: 1.2rem; height: 1.2rem; display: inline-block; margin-bottom: .2rem;">
+        </div>
+    </div>
+
+    <!-- Main Content Body -->
+    <div class="col-sm-12 body" ng-if="sensors_charted.length">
+        <table>
             <!-- Table Header -->
             <thead>
-              <tr>
-                <th ng-click="sortType = 'parentSensorTitle'; sortReverse = !sortReverse" class="sortable-header">
-                    Sensor Name
-                    <span ng-show="sortType == 'parentSensorTitle'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
-                </th>
-                <th ng-click="sortType = 'dataSource'; sortReverse = !sortReverse" class="sortable-header">
-                    Source
-                    <span ng-show="sortType == 'dataSource'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
-                </th>
-                <th ng-click="sortType = 'units'; sortReverse = !sortReverse" class="sortable-header">
-                    Unit of Measure
-                    <span ng-show="sortType == 'units'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
-                </th>
-                <th>Value</th>
-                <th>Time</th>
-              </tr>
+                <tr>
+                    <th ng-click="sortType = 'parentSensorTitle'; sortReverse = !sortReverse" class="sortable-header">
+                        Sensor Name
+                        <span ng-show="sortType == 'parentSensorTitle'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                    </th>
+                    <th ng-click="sortType = 'dataSource'; sortReverse = !sortReverse" class="sortable-header">
+                        Source
+                        <span ng-show="sortType == 'dataSource'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                    </th>
+                    <th ng-click="sortType = 'units'; sortReverse = !sortReverse" class="sortable-header">
+                        Unit of Measure
+                        <span ng-show="sortType == 'units'" class="fa pull-right" ng-class="sortReverse ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                    </th>
+                    <th>Value</th>
+                    <th>Time</th>
+                </tr>
             </thead>
 
             <tbody>
-              <tr ng-repeat="chart in charts_flat_list | orderBy:sortType:sortReverse">
-                <td>{{chart.parentSensorTitle}}</td>
-                <td>{{chart.dataSource}}</td>
-                <td>{{chart.units}}</td>
-                <td>{{chart.mostRecentValue}}</td>
-                <td>{{chart.mostRecentTimestamp | date : 'medium'}}</td>
-              </tr>
+                <tr ng-repeat="chart in charts_flat_list | orderBy:sortType:sortReverse">
+                    <td>{{chart.parentSensorTitle}}</td>
+                    <td>{{chart.dataSource}}</td>
+                    <td>{{chart.units}}</td>
+                    <td>{{chart.mostRecentValue}}</td>
+                    <td>{{chart.mostRecentTimestamp | date : 'medium'}}</td>
+                </tr>
             </tbody>
-
-
-         
-          </table>
-
-         
-        </div>
-      </div>
+        </table>
+    </div>
+</div>

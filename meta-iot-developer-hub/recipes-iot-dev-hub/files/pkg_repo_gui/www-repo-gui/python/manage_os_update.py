@@ -80,18 +80,28 @@ class OS_UPDATER(object):
                 # It is passed in "-u" flag as a string, run via "subprocess".
                 # Subprocess's check_output takes care of escaping already.
                 str_cred = str(user_name) + ":" + str(password)
-                curl_out = subprocess.check_output(["curl",
+                try:
+                    curl_out = subprocess.check_output(["curl",
                                                     "-u",
                                                     str_cred,
                                                     "%s" % self.__index_file_loc])
-                if 'Username or password does not match' in curl_out:
-                    self.__error = 'Error 401 - Unauthorized: Access is denied due to invalid credentials.'
-                    self.__log_helper.logger.error(str(self.__error))
-                else:
-                    # write to the local index file
-                    xml_file = open(self.__rcplindex_fname, "w")
-                    xml_file.write(curl_out)
-                    xml_file.close()
+                    if 'Username or password does not match' in curl_out:
+                        self.__error = 'Error 401 - Unauthorized: Access is denied due to invalid credentials.'
+                        self.__log_helper.logger.error(str(self.__error))
+                    else:
+                        # write to the local index file
+                        xml_file = open(self.__rcplindex_fname, "w")
+                        xml_file.write(curl_out)
+                        xml_file.close()
+                except subprocess.CalledProcessError as err:
+                    if err.returncode == 60:
+                        self.__error = 'Unable to download repository list: Error 60 - SSL certificate issue'
+                        self.__log_helper.logger.error(str(self.__error))
+                    else:
+                        self.__error = err
+                        self.__log_helper.logger.error(str(self.__error))
+
+
             else:
                 self.__log_helper.logger.debug('Get Flex rcplindex')
                 self.__index_file_loc = config.get('BaseRepo', sysinfo_ops.arch)
@@ -329,6 +339,8 @@ class OS_UPDATER(object):
                                 result['error'] = "Failed to add repository: Unable to connect to repository."
                             elif "Invalid XML" in update_result['cmd_output']:
                                 result['error'] = "Failed to add repository: Repository XML file invalid. "
+                            elif "server certificate verification failed." in update_result['cmd_output']:
+                                result['error'] = "SSL certificate error: Server certificate verification failed. "
                             else:
                                 result['error'] = update_result['cmd_output'][update_result['cmd_output'].index("error:") + 7:].replace("\n", "")
                         else:
@@ -385,7 +397,14 @@ class OS_UPDATER(object):
 
             # do smart upgrade
             cmd_output = shell_ops.run_cmd_chk("smart upgrade -y")
-            if cmd_output['returncode']:  # fail
+            if "Cannot allocate memory" in cmd_output['cmd_output']:
+                cmd_output['returncode'] = "memerror"
+
+            if cmd_output['returncode'] == "memerror":
+                # re-enable the disabled repo
+                manage_repo.enable_repo(response_repos['disabled_repos'])
+                self.__result['message'] = 'Some packages were not updated. Not enough memory during update process. Please run OS update again.'
+            elif cmd_output['returncode']:  # fail
                 # re-enable the disabled repo
                 manage_repo.enable_repo(response_repos['disabled_repos'])
                 self.__result['message'] = "Error during upgrade process. Error: " + cmd_output['cmd_output']
@@ -479,7 +498,8 @@ class OSUpdate(object):
                                     #  u'message': u'{
                                     #       "status": "success",
                                     #       "packages": [],
-                                    #       "package_update": True/False
+                                    #       "package_update": True/False,
+                                    #       "message": ""
                                     #   }',
                                     #  u'in_progress': False,
                                     #  u'work_type': ''}
@@ -488,6 +508,7 @@ class OSUpdate(object):
                                     result['status'] = json_data['status']  # this can still be 'failure'
                                     result['packages'] = json_data['packages']
                                     result['package_update'] = json_data['package_update']
+                                    result['message'] = json_data['message']
                         else:
                             result['message'] = 'Unsupported check request: ' + str(kwargs['request'])
                     else:
@@ -517,6 +538,7 @@ class OSUpdate(object):
                     # =====================================
                     retrieving_work, result = manage_worker.do_work(manage_worker.worker_process_message_type_do_os_packages_update,
                                                                     kwargs)
+
                     if retrieving_work:
                         if result['status'] == 'success':
                             # {u'status': u'success',

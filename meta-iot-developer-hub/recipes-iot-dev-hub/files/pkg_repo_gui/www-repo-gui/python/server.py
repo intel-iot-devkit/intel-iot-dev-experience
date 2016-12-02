@@ -196,6 +196,8 @@ if __name__ == '__main__':
     cherrypy.tree.mount(manage_security.SecurityAutomation(), '/api/sa', config=app_config)
     cherrypy.tree.mount(manage_service.ServiceControl(), '/api/sc', config=app_config)
     cherrypy.tree.mount(manage_os_controls.OSControls(), '/api/osc', config=app_config)
+    cherrypy.tree.mount(manage_os_controls.OSFiles(), '/api/file', config=app_config)
+    cherrypy.tree.mount(manage_os_controls.Accounts(), '/api/accounts', config=app_config)
     cherrypy.tree.mount(manage_usb.USB_API(), '/api/usb', config=app_config)
     cherrypy.tree.mount(manage_pro_upgrade.EnablePro(), '/api/pro', config=app_config)
     cherrypy.tree.mount(manage_os_update.OSUpdate(), '/api/osup', config=app_config)

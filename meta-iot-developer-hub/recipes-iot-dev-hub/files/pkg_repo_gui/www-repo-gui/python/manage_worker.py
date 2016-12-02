@@ -44,7 +44,7 @@ worker_process_message_test_2 = "test2"
 worker_process_message_type_initialization = "Initial Set-up"
 worker_process_message_type_save_proxy = "Set Proxy Settings"
 worker_process_message_type_get_proxy = "Get Proxy Settings"
-worker_process_message_type_test_proxy = "Test Proxy Settings"
+worker_process_message_type_test_proxy = "Adjust Worker Process Proxy Settings"
 worker_process_message_type_pro_upgrade = "Upgrade To Pro"
 worker_process_message_type_save_image = "Save OS Image"
 worker_process_message_type_toggle_https = "Toggle HTTPS Connection"
@@ -405,10 +405,35 @@ class WorkerProcess(Process):
         work_type = worker_process_message_type_save_image
         self.__log_helper.logger.info("Doing work: " + work_type)
         try:
-            sa = manage_security.SecurityAutomationWorker()
-            s_result = sa.create_harden_image(message.get('usb_device', ''),
-                                            message.get('admin_password', ''),
-                                            message.get('mec_password', ''))
+            # message = {
+            #        'harden_type'                : 'standard'/'custom',
+            #        'usb_device'                 : _usb_device,
+            #        'packages_removed'           : ['node', 'node-red-experience', .....],
+            #        'updaters'                   : ['/usr/bin/wr-iot-watchdog', '/usr/bin/wr-iot-agent', .......],
+            #        'users'                      : [{'name': '', 'pw': ''}, {'name': '', 'pw': ''}, ......],
+            #        'stig'                       : ['V-50549', 'V-50551', ....],
+            #        'admin_password'             : '',
+            #        'mec_password'               : ''
+            #    };
+            harden_type = message.get('harden_type', 'standard')
+            if harden_type == 'standard':
+                sa = manage_security.SecurityAutomationWorker()
+                sa.standard_harden_image(message.get('usb_device', ''),
+                                       message.get('admin_password', ''),
+                                       message.get('mec_password', ''))
+                s_result = sa.create_harden_image()
+            else:
+                sa = manage_security.SecurityAutomationWorker()
+                sa.custom_harden_image(message.get('usb_device', ''),
+                                       message.get('packages_removed', []),
+                                       message.get('updaters', []),
+                                       message.get('users', []))
+                s_result = sa.create_harden_image()
+
+                # replace the default config data with the new input
+                manage_security.save_default_custom_harden_data(message.get('packages_removed', []),
+                                                                message.get('updaters', []))
+
             work_result['result'] = s_result
             work_result['status'] = 'success'
         except Exception as e:
@@ -749,12 +774,18 @@ class WorkerProcess(Process):
         """
         work_type = worker_process_message_type_check_os_packages_update
         self.__log_helper.logger.info("Doing work: " + work_type)
-        c_result = {'status': 'failure', 'packages': [], 'package_update': False}
+        c_result = {'status': 'failure', 'packages': [], 'package_update': False, 'message': ''}
         try:
             get_result = manage_package.get_updates_for_os_packages()
             c_result['package_update'] = get_result['package_update']
             c_result['packages'] = get_result['packages']
-            c_result['status'] = 'success'
+            # Check for error
+            if get_result['message']:
+                c_result['status'] = 'failure'
+                c_result['message'] = get_result['message']
+                self.__log_helper.logger.error(get_result['message'])
+            else:
+                c_result['status'] = 'success'
             work_result['result'] = json.dumps(c_result)
             work_result['status'] = 'success'
         except Exception as e:
@@ -779,6 +810,9 @@ class WorkerProcess(Process):
         self.__log_helper.logger.info("Doing work: " + work_type)
         c_result = {'status': 'failure', 'message': ''}
         try:
+            # get node-red-experience status, stop node-red-experience service
+            status_node_red = manage_service.ServiceSupport.stop_node_red_experience()
+
             updater = manage_os_update.OS_UPDATER(sysinfo_ops.rcpl_version, sysinfo_ops.arch,
                                                   user_name=message.get('username', ''),
                                                   password=message.get('password', ''))
@@ -794,6 +828,13 @@ class WorkerProcess(Process):
                 #    pass
             else:
                 c_result['message'] = str(error_message)
+
+            # If failure, start node-red-experience service if it was started before.
+            # If success, the gateway will be rebooted by Dev Hub, so do nothing.
+            if c_result['status'] == 'failure':
+                if status_node_red['status'] == 'success':
+                    if status_node_red['is_active']:
+                        manage_service.ServiceSupport.start_node_red_experience()
 
             work_result['result'] = json.dumps(c_result)
             work_result['status'] = 'success'
@@ -819,8 +860,19 @@ class WorkerProcess(Process):
         self.__log_helper.logger.info("Doing work: " + work_type)
         c_result = {'status': 'failure', 'message': '', 'p_list': []}
         try:
+            # get node-red-experience status, stop node-red-experience service
+            status_node_red = manage_service.ServiceSupport.stop_node_red_experience()
+
             # do_updates_for_os_packages needs to return the same dict as this function.
             c_result = manage_package.do_updates_for_os_packages()
+
+            # If failure, start node-red-experience service if it was started before.
+            # If success, the gateway will be rebooted by Dev Hub, so do nothing.
+            if c_result['status'] == 'failure':
+                if status_node_red['status'] == 'success':
+                    if status_node_red['is_active']:
+                        manage_service.ServiceSupport.start_node_red_experience()
+
             work_result['result'] = json.dumps(c_result)
             work_result['status'] = 'success'
         except Exception as e:
@@ -1069,6 +1121,7 @@ def submit_work(work_type, internal_work=False):
     global worker_process_work_type
     global worker_process_work_to_be_done
     result = {'status': 'failure', 'message': '', 'in_progress': False, 'work_type': ''}
+    log_helper = logging_helper.logging_helper.Logger()
 
     # extend the session expiration time,  reset the expiration time
     # this will take effect from the next request
@@ -1085,8 +1138,11 @@ def submit_work(work_type, internal_work=False):
         worker_process_lock.acquire()
 
         first_check_ok = False
+        is_busy = False
         if internal_work:
             first_check_ok = True
+            if worker_process_state != worker_process_state_idle:
+                is_busy = True
         else:
             # get worker process state
             if worker_process_state == worker_process_state_idle:
@@ -1094,6 +1150,7 @@ def submit_work(work_type, internal_work=False):
             else:
                 # return the work type.
                 first_check_ok = False
+                is_busy = True
                 result['message'] = "Another important work " + worker_process_work_type + " is in progress! Please wait and try again later!"
                 result['in_progress'] = True
                 result['work_type'] = worker_process_work_type
@@ -1112,15 +1169,24 @@ def submit_work(work_type, internal_work=False):
                             worker_process_state = worker_process_state_working
                             # Add entry to to be done set
                             worker_process_work_to_be_done.add(work_type['id'])
-                            # record the work type.
-                            worker_process_work_type = work_type['type']
+                            # Record the work type.
+                            # If this is internal work and some other work is already running,
+                            #   do not change work type
+                            if internal_work and is_busy:
+                                log_helper.logger.debug("This is internal work and an earlier work is still running, so do not change work type.")
+                            else:
+                                worker_process_work_type = work_type['type']
                             result['status'] = 'success'
                         except Full:
                             result['message'] = "Communicate queue to worker process is full. Try again later."
                             result['in_progress'] = False
                             result['work_type'] = worker_process_work_type
                     else:
-                        result['message'] = "The passed-in work_type has duplicate id."
+                        # If the id is internal work for network change, change the message.
+                        if work_type['id'] == worker_process_internal_work_id:
+                            result['message'] = "The internal work is already queued. Discard this one. This is not an error."
+                        else:
+                            result['message'] = "The passed-in work_type has duplicate id."
                         result['in_progress'] = False
                         result['work_type'] = worker_process_work_type
                 else:
@@ -1225,6 +1291,22 @@ def get_worker_process_state():
         return worker_process_state_starting
 
 
+def get_worker_process_state_and_type():
+    global worker_process_process
+    global worker_process_state
+    global worker_process_work_type
+    global worker_process_lock
+
+    if not (worker_process_process is None):
+        worker_process_lock.acquire()
+        state = worker_process_state
+        work_type = worker_process_work_type
+        worker_process_lock.release()
+        return state, work_type
+    else:
+        return worker_process_state_starting, worker_process_message_test
+
+
 def check_gui_refresh():
     """ Read and process queue messages sent by the singleton worker process.
     Returns:
@@ -1281,3 +1363,4 @@ def do_work(work_type, parameters):
         worker_result['message'] = str(e)
 
     return retrieving_work, worker_result
+

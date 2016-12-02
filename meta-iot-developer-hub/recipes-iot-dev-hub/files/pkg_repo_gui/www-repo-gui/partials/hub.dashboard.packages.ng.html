@@ -78,7 +78,7 @@
             </thead>
 
             <tbody>
-                <tr ng-repeat="package in installed | orderBy:sortType:sortReverse" ng-class="{'updating-styling': updating_package[package.name]}">
+                <tr ng-repeat="package in installed | orderBy:sortType:sortReverse | limitTo:totalDisplayed" ng-class="{'updating-styling': updating_package[package.name]}">
                   <!-- Column 1 -->
                   <td>
                     <div class="package">
@@ -140,5 +140,11 @@
             </tbody>
         </table>
     </div><!-- /.body -->
+
+    <!-- load more button -->
+    <div class="blue-button-md load-more" ng-if="showLoadMore"  ng-click="loadMore()">
+        <span>Show More</span>
+        <img src="images/white-add.svg" style="width: 1.2rem; height: 1.2rem; display: inline-block; margin-bottom: .2rem;">
+    </div>
 </div><!-- /.packages-body -->
 

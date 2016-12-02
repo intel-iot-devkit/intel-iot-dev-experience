@@ -9,6 +9,7 @@ import subprocess
 import json
 import ast
 from tools import logging_helper
+import manage_config
 import manage_worker
 
 
@@ -96,6 +97,52 @@ class ServiceSupport(object):
             pass
 
         return json.dumps(response)
+
+    @staticmethod
+    def stop_node_red_experience():
+        """ Get the current Node Red Experience service status, and stop the service.
+
+        Returns:
+            dict: {'status': 'success'/'failure', 'is_active': True/False}
+        """
+        response = {'status': 'failure', 'is_active': False}
+        log_helper = logging_helper.logging_helper.Logger()
+        try:
+            # get the current active status
+            request_data = {'service': manage_config.node_red_experience_service}
+            request_return = json.loads(ServiceSupport.get_service_info(request_data))
+            if manage_config.node_red_experience_service in request_return:
+                request_return_2 = request_return[manage_config.node_red_experience_service]
+                if 'ACTIVE' in request_return_2:
+                    if request_return_2['ACTIVE'] == 'active':
+                        response['is_active'] = True
+
+            # if active, stop it
+            if response['is_active']:
+                request_data = {'action': 'stop', 'services': manage_config.node_red_experience_service}
+                ServiceSupport.control_service(request_data)
+
+            response['status'] = "success"
+        except Exception as e:
+            log_helper.logger.error(str(e))
+        return response
+
+    @staticmethod
+    def start_node_red_experience():
+        """ Start Node Red Experience service
+
+        Returns:
+            dict: {'status': 'success'/'failure'}
+        """
+        response = {'status': 'failure'}
+        log_helper = logging_helper.logging_helper.Logger()
+        try:
+            request_data = {'action': 'start', 'services': manage_config.node_red_experience_service}
+            ServiceSupport.control_service(request_data)
+            response['status'] = 'success'
+        except Exception as e:
+            log_helper.logger.error(str(e))
+        return response
 
 
 class ServiceControl(object):

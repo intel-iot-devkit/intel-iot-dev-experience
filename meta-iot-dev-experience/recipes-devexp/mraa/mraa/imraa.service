@@ -1,0 +1,10 @@
+[Unit]
+Description=imraa
+After=iot-dev-hub.service syslog.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/imraa
+
+[Install]
+WantedBy = multi-user.target

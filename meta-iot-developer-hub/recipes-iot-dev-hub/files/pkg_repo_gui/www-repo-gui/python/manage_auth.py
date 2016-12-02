@@ -124,6 +124,7 @@ def set_password(username, current_password, new_password):
         'status': "failure"
     })    
     log_helper = logging_helper.logging_helper.Logger()
+
     auth_check = authenticate_user(username, current_password)
     if auth_check['status'] == 'failure':
         response['error'] = 'Error: Authorization Failed'

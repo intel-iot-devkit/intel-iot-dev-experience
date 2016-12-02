@@ -214,10 +214,6 @@ def set_proxy_config_in_worker_process(http_url, http_port, https_url, https_por
         if add_result['status'] == 'fail':
             log_helper.logger.error('Failed to add flex repos.. ' + add_result['error'])
 
-    # Update package list after proxy settings
-    # And we do not need to check network again since we checked it already.
-    manage_repo.update_channels(CheckNetworkAgain=False)
-
     # We do this at the end so that we don't run too many processes.
     # Restart Node-Red and WR-IOT-Agent for Proxy settings to take effect
     try:
@@ -359,31 +355,50 @@ class Proxy(object):
                 worker_result['message'] = str(e)
             return json.dumps(worker_result)
         elif kwargs['request'] == "test":
-            # read the previous result
-            connection_good = False
-            if self.__network_checker.get_stored_https_status() and self.__network_checker.get_stored_http_status():
-                connection_good = True
-            # test network
-            test_result1, test_result2 = self.__network_checker.test_network_connection(check_http=manage_config.network_check_http)
-            # read the current result
-            connection_good_new = False
-            if self.__network_checker.get_stored_https_status() and self.__network_checker.get_stored_http_status():
-                connection_good_new = True
+            # If the Worker Process is busy and doing OS Update (packages or RCPL),
+            #   Do not do network check at all.
+            #   Since OS Update may trigger network interface reset.
+            do_network_check = True
+            log_path = "/tmp/uc_log"
+            worker_state, worker_type = manage_worker.get_worker_process_state_and_type()
+            if worker_state == manage_worker.worker_process_state_working:
+                if (worker_type == manage_worker.worker_process_message_type_do_rcpl_update) or (worker_type == manage_worker.worker_process_message_type_do_os_packages_update):
+                    do_network_check = False
+                    self.__log_helper.logger.debug('Do not check network since OS Update is running.')
 
-            # If the connection status changes, submit the work to worker process.
-            # However, this work is an internal work and is not exposed to Front-end.
-            if connection_good != connection_good_new:
-                type_dict = {'type': manage_worker.worker_process_message_type_test_proxy,
-                             'id': manage_worker.worker_process_internal_work_id}
-                s_result = manage_worker.submit_work(work_type=type_dict, internal_work=True)
-                if s_result['status'] == 'failure':
-                    self.__log_helper.logger.error('Failed to submit work: ' + str(s_result))
+            if do_network_check:
+                # read the previous result
+                connection_good = False
+                if self.__network_checker.get_stored_https_status() and self.__network_checker.get_stored_http_status():
+                    connection_good = True
+                # test network
+                test_result1, test_result2 = self.__network_checker.test_network_connection(check_http=manage_config.network_check_http)
+
+                # read the current result
+                connection_good_new = False
+                if self.__network_checker.get_stored_https_status() and self.__network_checker.get_stored_http_status():
+                    connection_good_new = True
+
+                # If the connection status changes, submit the work to worker process.
+                # However, this work is an internal work and is not exposed to Front-end.
+                if connection_good != connection_good_new:
+                    type_dict = {'type': manage_worker.worker_process_message_type_test_proxy,
+                                 'id': manage_worker.worker_process_internal_work_id}
+                    s_result = manage_worker.submit_work(work_type=type_dict, internal_work=True)
+                    if s_result['status'] == 'failure':
+                        self.__log_helper.logger.error('Failed to submit work: ' + str(s_result))
+            else:
+                # use the current status
+                test_result1 = manage_config.network_status
+                test_result2 = json.dumps(manage_config.network_status)
 
             # Check if we need other information or not
             need_refresh = manage_worker.check_gui_refresh()
             test_result1['pro_status'] = {'result': 'NA'}
             test_result1['package_list'] = 'NA'
             test_result1['repo_list'] = 'NA'
+            test_result1['repo_status'] = 'success'
+            test_result1['repo_error'] = ''
             if need_refresh:
                 # Grab the pro status
                 config = manage_pro_upgrade.ProStatus()
@@ -393,6 +408,22 @@ class Proxy(object):
                 test_result1['package_list'] = manage_package.get_data()
                 # Get the new repos list
                 test_result1['repo_list'] = manage_repo.list_repos_non_os_only()
+
+            # Check for errors to display on login
+            # Although this is done every minute, most of the time, we are just checking file existence.
+            # Only when an error happens, then the file exists and we read the file content.
+            if os.path.isfile(log_path):
+                try:
+                    uc_log = file(log_path, 'r')
+                    test_result1['repo_error'] = uc_log.read()
+                    uc_log.close()
+                    test_result1['repo_status'] = 'failure'
+                except Exception as e:
+                    test_result1['repo_error'] = str(e)
+            else:
+                test_result1['repo_error'] = ''
+                test_result1['repo_status'] = 'success'
+
             return json.dumps(test_result1)
 
     def POST(self, **kwargs):

@@ -11,8 +11,10 @@ import math
 import socket
 import platform
 import os
+import pwd
+import grp
 from time import ctime
-from uptime import uptime
+from datetime import timedelta
 from netifaces import interfaces, ifaddresses, AF_INET
 from tools import logging_helper, shell_ops
 
@@ -31,11 +33,9 @@ class DataCollect(object):
         # self.__lan_ip_addr = {}
         # self.__wan_ip_addr = {}
         self.__net_interface = {}
-        up_time_secs = uptime()
-        self.__minutes = int(math.floor((up_time_secs % 3600)/60))
-        self.__hours = int(math.floor((up_time_secs % 86400)/3600))
-        self.__days = int(math.floor((up_time_secs % 2592000)/86400))
-        self.__up_time_buf = '%sd  %sh %sm' % (self.__days, self.__hours, self.__minutes)
+        self.__minutes = None
+        self.__hours = None
+        self.__days = None
         self.__disk_usage = {}
         self.__free = 0.0
         self.__total = 0.0
@@ -69,24 +69,6 @@ class DataCollect(object):
                 ip_address = adapter_config[0]['addr']
                 if not (ip_address == 'na'):  # filter out interface without ip address
                     self.__net_interface[adapter] = ip_address
-        """
-        lan_adapter_list = [i for i in iface_name if ('eth' in i)]
-        wan_adapter_list = [i for i in iface_name if ('wlan' in i)]
-        for adapter in lan_adapter_list:
-            adapter_config = ifaddresses(adapter).setdefault(AF_INET, [{'addr': 'na'}])
-            ip_address = adapter_config[0]['addr']
-            self.__lan_ip_addr[adapter] = ip_address
-        for adapter in wan_adapter_list:
-            adapter_config = ifaddresses(adapter).setdefault(AF_INET, [{'addr': 'na'}])
-            ip_address = adapter_config[0]['addr']
-            if ip_address == 'na':
-                brlan_adapter_list = [i for i in iface_name if ('br-lan' in i)]
-                for bridge in brlan_adapter_list:
-                    adapter_config = ifaddresses(bridge).setdefault(AF_INET, [{'addr': 'na'}])
-                    ip_address = adapter_config[0]['addr']
-            self.__wan_ip_addr[adapter] = ip_address
-        return self.__lan_ip_addr, self.__wan_ip_addr
-        """
         return self.__net_interface
 
     def getWifiSSID(self):
@@ -112,8 +94,18 @@ class DataCollect(object):
         Returns:
             str: system up time.
         """
-        self.__log_helper.logger.debug(str(self.__up_time_buf))
-        return self.__up_time_buf
+	with open('/proc/uptime', 'r') as f:
+            r = float(f.readline().split()[0])
+            upt = timedelta(seconds = r)
+        t = str(upt)
+        if upt.days > 0:
+            t = t.split(' ')[2]
+        t = t.split(':')
+        self.__days = upt.days
+        self.__minutes = t[1]
+	self.__hours = t[0]
+        self.__uptime = '%sd %sh %sm' % (self.__days, self.__hours, self.__minutes)
+        return self.__uptime
 
     def getSystemVersion(self):
         """ Return system version.
@@ -168,6 +160,18 @@ class DataCollect(object):
         self.__disk_usage['free'] = '%.1f' % round(self.__free, 1)
         return self.__disk_usage
 
+    def getMcafeeStatus(self):
+        """ Return status of MEC service
+        Returns:
+            active / inactive
+        """        
+        chk_out = shell_ops.run_cmd_chk('systemctl is-active scsrvc.service')
+        if chk_out['returncode']:
+            result = 'Inactive'
+        else:
+            result = 'Active'
+        return result
+
     def getDataSet(self):
         """ Return system info data.
         Returns:
@@ -182,6 +186,7 @@ class DataCollect(object):
         self.__data_set['disk'] = self.getDiskUsage('/')
         self.__data_set['system_version'] = self.getSystemVersion()
         self.__data_set['devhub_version'] = self.getDevHubVersion()
+        self.__data_set['mcAfee_status'] = self.getMcafeeStatus()
         return self.__data_set
 
     def platform_details(self):
@@ -201,4 +206,19 @@ class DataCollect(object):
         devhub_version = shell_ops.run_command('rpm -q --queryformat %{version}-%{release} iot-developer-hub')
         return devhub_version
 
-
+    def getTargetAccounts(self):
+        # https://docs.python.org/2/library/pwd.html
+        # useradd and  /etc/login.defs to define UID range
+        account_list = []
+        for p in pwd.getpwall():
+            # grp.getgrgid(p[3])[0] can show group name
+            if p[0] == 'root':
+                account_list.append(p[0])
+            elif p[0] == 'wra':
+                account_list.append(p[0])
+            elif 65534 > p[2] >= 1000:
+                # useradd command will add user account with UID starting from 1000 based on /etc/login.defs
+                account_list.append(p[0])
+            else:
+                pass
+        return account_list

@@ -12,7 +12,8 @@
     </div>
 
     <div ng-if="toggled_security">
-        Please wait for the server to restart. This may take a few minutes. Please leave this window open. When the server is back up, you will be automatically forwarded to <span ng-if="!security_enabled">{{httpsurl}}.</span><span ng-if="security_enabled">{{httpurl}}.</span>
+        Please wait for the server to restart. This may take a few minutes. Please leave this window open, and you will be automatically forwarded to <span ng-if="!security_enabled">{{httpsurl}}.</span><span ng-if="security_enabled">{{httpurl}} shortly.</span>
+        If the sever is still in the restart process, you may see <strong>Unable to connect</strong> or <strong>Site can't be reached</strong> warning. Please refresh the page in a few minutes.
     </div>
 
     <div class="close-admin-modal" ng-click="closeModal()" ng-if="!toggled_security"></div>

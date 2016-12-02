@@ -19,7 +19,6 @@ import manage_pro_upgrade
 import manage_worker
 from manage_auth import require
 
-
 # global variables used across multiple modules
 constructed_packages_list = []  # only used by unit_test
 constructed_packages_list_new = []  # only used by unit_test
@@ -441,6 +440,11 @@ def build_package_database_new():
         my_file.write(json.dumps(data))
     log_helper.logger.debug("Finished building package database. Output written to " + manage_config.package_data_file)
 
+    with open(manage_config.package_installed_data_file, 'w') as my_file:
+        my_file.write(json.dumps(my_dict))
+    log_helper.logger.debug(
+        "Finished building package database. Output written to " + manage_config.package_installed_data_file)
+
 
 def build_package_database_original():
     """ Parses curated and non-curated packages and places them into a json format.
@@ -751,7 +755,7 @@ def get_package_info(package_name):
     if output.count('Name:') > 1:
         # Multiple versions available. Narrow down smart info scope to get accurate info for the current version
         response = shell_ops.run_command("smart query --installed " + package_name + " --show-format=$version")
-        version = response[response.index('[100%]')+6:response.index('@')].replace('\n', '')
+        version = response[response.index('[100%]') + 6:response.index('@')].replace('\n', '')
         if 'not' in version:  # Workaround for "(not installed)" case
             version = 'Unknown'
 
@@ -795,7 +799,7 @@ def get_package_info(package_name):
 
 def get_data():
     """ Get the data from the build_package_database function.
-
+        The return is string of array of JSON objects. Each JSON object is a package with its info.
     Returns:
         str: File contents if the file exists or None if it does not exist.
     """
@@ -805,8 +809,34 @@ def get_data():
         output = my_file.read().decode('string_escape')
         my_file.close()
         return output
-    # [Errno 2] No such file or directory: '/tmp/test.txt'
-    # except IOError:
+        # [Errno 2] No such file or directory: '/tmp/test.txt'
+        # except IOError:
+        # network_checker = network_ops.NetworkCheck()
+        # if network_checker.get_stored_https_status() and network_checker.get_stored_http_status():
+        #     log_helper.logger.debug("Database does not exist. Building database since network connection is ok...")
+        #     build_package_database()
+    except:
+        # Note:
+        # When we do not have the data file, that means that the network connection is not good when dev hub server is started.
+        # When the user is setting up the network, we will create the data file if the settings are good.
+        # Or when the network settings are from bad to good, we will also create the data file.
+        return None
+
+
+def get_data_installed():
+    """ Get the data from the build_package_database function.
+        The return is string of JSON object. Each key in the object is a package (name). The value is the package version.
+    Returns:
+        str: File contents if the file exists or None if it does not exist.
+    """
+    log_helper = logging_helper.logging_helper.Logger()
+    try:
+        my_file = open(manage_config.package_installed_data_file, 'r')
+        output = my_file.read().decode('string_escape')
+        my_file.close()
+        return output
+        # [Errno 2] No such file or directory: '/tmp/test.txt'
+        # except IOError:
         # network_checker = network_ops.NetworkCheck()
         # if network_checker.get_stored_https_status() and network_checker.get_stored_http_status():
         #     log_helper.logger.debug("Database does not exist. Building database since network connection is ok...")
@@ -874,7 +904,8 @@ def package_transaction(command_type, package):
             command = "smart " + command_type + " -y " + pkg
 
     result = shell_ops.run_cmd_chk(command)
-    log_helper.logger.debug("Ran command '%s' with returncode of '%s' and return of '%s'" % (command, result['returncode'], result['cmd_output']))
+    log_helper.logger.debug("Ran command '%s' with returncode of '%s' and return of '%s'" % (
+    command, result['returncode'], result['cmd_output']))
     response = parse_package_installation_result(pkg_name=pkg, result_dict=result)
 
     if signature_status == "untrusted":
@@ -940,14 +971,15 @@ def parse_package_installation_result(pkg_name, result_dict):
 def get_updates_for_os_packages():
     """ Get available package updates for OS packages.
     Returns:
-        dict: {'package_update': False, 'packages': []} or {'package_update': True, 'packages': [list]}
+        dict: {'package_update': False, 'packages': [], 'message': ''} or {'package_update': True, 'packages': [list], 'message': ''}
     """
     log_helper = logging_helper.logging_helper.Logger()
-    result = {'package_update': False, 'packages': []}
+    result = {'package_update': False, 'packages': [], 'message': ''}
 
     # disable repo if it is in repo tracking file or it is the default Intel repo.
     response_repos = manage_repo.enable_only_os_repos()
     if response_repos['status'] is False:
+        result['message'] = response_repos['message']
         return result
 
     # Check newer
@@ -1002,30 +1034,26 @@ def do_updates_for_os_packages():
         return result
 
     # smart upgrade
-    # Prepare for args
-    commands_list = ['upgrade']
-    args_list = [['-y']]
-    # Run the commands
-    p = subprocess.Popen(['python', 'smart_ops.py', str(commands_list), str(args_list)],
-                         cwd='tools',
-                         stdout=subprocess.PIPE,
-                         stderr=subprocess.STDOUT)
-    buffer_out = ""
-    for line in iter(p.stdout.readline, ''):
-        buffer_out += line
-    if 'Error For Smart_ops.py' in buffer_out:
-        log_helper.logger.error('Smart.ops.py running failed:  ' + str(buffer_out))
+    cmd_output = shell_ops.run_cmd_chk("smart upgrade -y")
+
+    if "Cannot allocate memory" in cmd_output['cmd_output']:
+        cmd_output['returncode'] = "memerror"
+
+    if cmd_output['returncode'] == "memerror":
+        log_helper.logger.error('smart upgrade failed from memory allocation error:  ' + cmd_output['cmd_output'])
         result['status'] = 'failure'
-        result['message'] = str(buffer_out)
-    else:
-        results_list = buffer_out.split('#smart_opts_list#')
-        if len(results_list) == 1:
-            result['status'] = 'success'
-            result['message'] = ''
-        else:
-            log_helper.logger.error('Results do not have only 1 item in list...' + str(results_list))
-            result['status'] = 'failure'
-            result['message'] = 'Results do not have only 1 item in list...' + str(results_list)
+        result['message'] = 'Some packages were not updated. Not enough memory during update process. Please run OS update again.'
+    elif cmd_output['returncode']:  # fail
+        log_helper.logger.error('smart upgrade failed:  ' + cmd_output['cmd_output'])
+        result['status'] = 'failure'
+        result['message'] = cmd_output['cmd_output']
+    else:  # success
+        result['status'] = 'success'
+        result['message'] = ''
+
+    # The following block is for debug purpose
+    # with open(manage_config.os_update_log_file, 'w') as myfile:
+    #    myfile.write(cmd_output['cmd_output'])
 
     # re-enable the disabled repo
     manage_repo.enable_repo(response_repos['disabled_repos'])
@@ -1042,11 +1070,18 @@ class Packages(object):
     exposed = True
 
     def GET(self, **kwargs):
-        return get_data()
+        if 'request' not in kwargs:
+            return get_data()
+        else:
+            if kwargs['request'] == 'installed':
+                return get_data_installed()
+            else:
+                return get_data()
 
     def POST(self, **kwargs):
-        retrieving_work, worker_result = manage_worker.do_work(manage_worker.worker_process_message_type_install_package,
-                                                               kwargs)
+        retrieving_work, worker_result = manage_worker.do_work(
+            manage_worker.worker_process_message_type_install_package,
+            kwargs)
         try:
             if retrieving_work:
                 if worker_result['status'] == 'success':
@@ -1070,8 +1105,9 @@ class Packages(object):
         return json.dumps(worker_result)
 
     def PUT(self, **kwargs):
-        retrieving_work, worker_result = manage_worker.do_work(manage_worker.worker_process_message_type_upgrade_package,
-                                                               kwargs)
+        retrieving_work, worker_result = manage_worker.do_work(
+            manage_worker.worker_process_message_type_upgrade_package,
+            kwargs)
         try:
             if retrieving_work:
                 if worker_result['status'] == 'success':
@@ -1128,8 +1164,9 @@ class PackageInfo(object):
     exposed = True
 
     def GET(self, **kwargs):
-        retrieving_work, worker_result = manage_worker.do_work(manage_worker.worker_process_message_type_get_package_info,
-                                                               kwargs)
+        retrieving_work, worker_result = manage_worker.do_work(
+            manage_worker.worker_process_message_type_get_package_info,
+            kwargs)
         try:
             if retrieving_work:
                 if worker_result['status'] == 'success':

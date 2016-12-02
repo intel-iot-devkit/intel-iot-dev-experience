@@ -69,9 +69,11 @@
 
     <div ng-show="isSaving" class="network-settings-save-progress">
         <div class="progress-bar-block">
-            <div class="blue-modal-text">Saving network settings and refreshing the installed package list. This may take a few minutes.</div>
+            <div ng-hide="isUpdatingChannelsFailed" class="blue-modal-text">{{barMessage}}</div>
+            <div ng-show="isUpdatingChannelsFailed" class="blue-modal-text" style="color: red;">{{barMessage}}</div>
             <div class="progress-bar-iot">
-                <div class="progress-bar-indicator progress-bar progress-bar-striped active" role="progressbar" style="width: 100%;"></div>
+                <div ng-hide="isUpdatingChannelsFailed" class="progress-bar-indicator progress-bar progress-bar-striped active" role="progressbar" style="width: 100%;"></div>
+                <div ng-show="isUpdatingChannelsFailed" class="progress-bar-indicator" style="width: 100%;"></div>
             </div>
         </div>
     </div>

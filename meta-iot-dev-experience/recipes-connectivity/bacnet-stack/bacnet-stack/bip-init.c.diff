@@ -1,0 +1,13 @@
+diff --git a/ports/linux/bip-init.c b/ports/linux/bip-init.c
+index 508d670..d9a5588 100644
+--- a/ports/linux/bip-init.c
++++ b/ports/linux/bip-init.c
+@@ -78,7 +78,7 @@ static int get_local_ifr_ioctl(
+     return rv;
+ }
+ 
+-int get_local_address_ioctl(
++static int get_local_address_ioctl(
+     char *ifname,
+     struct in_addr *addr,
+     int request)

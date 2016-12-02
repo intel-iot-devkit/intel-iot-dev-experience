@@ -1,0 +1,69 @@
+ <!-- CREATE IMAGE STEP 4-->
+<div class="admin-step">
+    <div class="create-img-progress-bar">
+        <div class="create-img-step">
+            <div class="create-img-step-number">1</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Insert USB Flash Drive</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">2</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Select USB Flash Drive</div>
+        </div>
+        <div class="create-img-step active">
+            <div class="create-img-step-number">3</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Review Configuration</div>
+        </div>
+        <div class="create-img-step">
+            <div class="create-img-step-number">4</div>
+            <div class="create-img-step-text">Save OS Image:<br/>Write OS Image to USB Flash Drive</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Custom Security</h1>
+        </div>
+    </div><!-- /.row -->
+    <div class="save-image-custom">
+        <div class="title">File System Hardening</div>
+        <div class="description" style="margin-bottom: 1.0rem">Customize the Security Technical Implementation Guide (STIG) file system hardening options by toggling the checkbox for each option.</div>
+
+        <!--scrollable table-->
+        <perfect-scrollbar id="my_scroll_bar" ps-mouse-over class="scroll-area" wheel-propagation="false" wheel-speed="10" suppress-scroll-x="true">
+            <table id="stig_table">
+                <tr>
+                    <th width="5%"></th>
+                    <th width="12%">ID</th>
+                    <th width="10%">Severity</th>
+                    <th width="73%">Title</th>
+                </tr>
+                <tr ng-repeat="stig in custom_stig_list | orderBy:sortType:sortReverse" >
+                    <td width="5%">
+                        <label class="input-control user-access-input-control user-access-input-control-checkbox stig-input-control">
+                            <input type="checkbox" ng-model="stig.included"/>
+                            <div class="input-control-indicator user-access-input-control-indicator stig-input-control-indicator"></div>
+                        </label>
+                    </td>
+                    <td width="12%" class="stig_table_id">
+                        {{ stig.ID }}
+                    </td>
+                    <td width="10%">
+                        {{ stig.Severity }}
+                    </td>
+                    <td width="73%">
+                        {{ stig.Title }}
+                    </td>
+                </tr>
+            </table>
+        </perfect-scrollbar>
+
+    </div>
+    <div class="row admin-modal-btn-row">
+        <div class="col-md-6">
+            <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal3_Custom()">Cancel</div>
+        </div>
+        <div class="col-md-6">
+            <div class="back-button-md admin-modal-btn" ng-click="backOSImageModal3_Custom()">Back</div>
+            <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage3_Custom()" ng-class="{disabled: !connected}">Save and Apply</div>
+        </div>
+    </div><!-- .row -->
+</div><!-- /.admin-step -->

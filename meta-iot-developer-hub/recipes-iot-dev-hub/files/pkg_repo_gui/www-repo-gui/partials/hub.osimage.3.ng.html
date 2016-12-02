@@ -25,77 +25,54 @@
     </div><!-- /.row -->
     <div class="row">
         <div class="col-md-9 description">
+            <br/>
+            <br/>
             Security policies will be applied to a hardened OS image. After deployment of the OS image onto another gateway be sure to test your IoT application thoroughly to ensure correct operation.
             <br/>
             <a href="https://software.intel.com/GatewaySecurity-BestPractices" target="security">Read Security Best Practices</a>
-            <br/>
-            <br/>
-            <p>The hardened OS image will be configured to:</p>
-            <ol class="no-indent-ol">
-                <li>Enable McAfee&reg; Embedded Control dynamic whitelisting and controlled file system access</li>
-                <li>Limited SSH access (<a href="https://software.intel.com/GatewaySecurity-BestPractices" target="security">Read Security Best Practices</a>)</li>
-                <li>Remove software development tools and the Intel® IoT Gateway Developer Hub</li>
-                <li>Disable any new Linux accounts. Only the 3 default accounts(root, gwuser, wra) will be active</li>
-            </ol>
         </div>
         <div class="col-md-3">
             <div class="save-image create-image-img"></div>
         </div>
     </div><!-- .row -->
-    <div class="row password-blocks">
-        <div class="col-md-6">
-            <div class="modal-interior-box">
-                <div class="col-md-10 row">
-                    <h1 class="modal-interior-box-h1">Create Administrative Password</h1>
-                    <div class="description-sm">After completing this process, 3 OS Accounts (root, gwuser, and wra) will be active on the target device</div>
-                    <div class="input-block">
-                        <div class="lock-icon"></div>
-                        <input type="password" class="form-control" placeholder="Enter new password" ng-model="update_params.new_admin_password">
-                    </div>
-
-                    <div class="input-block">
-                        <div class="lock-icon"></div>
-                        <input type="password" class="form-control" placeholder="Confirm new password" ng-model="update_params.confirm_admin_password">
-                    </div>
-                    <div class="password-strength-txt">Password Strength:</div>
-                    <div ng-password-strength="update_params.confirm_admin_password" strength="passStrength" inner-class="progress-bar" inner-class-prefix="progress-bar-"></div>
-                    <div class="password-requirements">Passwords should contain at least 8 characters, include upper and lower case, numerals, and special characters</div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
+    <div class="save-image-description">
+        <label class="input-control input-control-radio">Standard Security
+            <input type="radio" ng-model="selection.type" value="standard"/>
+            <div class="input-control-indicator"></div>
+        </label>
+        <br>
+        <div class="content">
+            The hardened OS image will be configured to:
+            <ol class="no-indent-ol left">
+                <li>Enable McAfee&reg; Embedded Control dynamic whitelisting and controlled file system access.</li>
+                <li>Limited SSH access (<a href="https://software.intel.com/GatewaySecurity-BestPractices" target="security">Read Security Best Practices</a>).</li>
+                <li>Remove software development tools and the Intel® IoT Gateway Developer Hub.</li>
+                <li>Disable any new Linux accounts. Only the 3 default accounts(root, gwuser, wra) will be active.</li>
+            </ol>
         </div>
-        <div class="col-md-6">
-            <div class="modal-interior-box">
-                <div class="col-md-10 row">
-                    <h1 class="modal-interior-box-h1">Create McAfee&reg; Embedded Control Administrative Password</h1>
-
-                    <div class="input-block">
-                        <div class="lock-icon"></div>
-                        <input type="password" class="form-control" placeholder="Enter new password" ng-model="update_params.new_mec_admin_password">
-                    </div>
-                    <div class="input-block">
-                        <div class="lock-icon"></div>
-                        <input type="password" class="form-control" placeholder="Confirm new password" ng-model="update_params.confirm_mec_admin_password">
-                    </div>
-                    <div class="password-strength-txt">Password Strength:</div>
-                    <div ng-password-strength="update_params.confirm_mec_admin_password" strength="passStrength2" inner-class="progress-bar" inner-class-prefix="progress-bar-"></div>
-                    <div class="password-requirements">Passwords should contain at least 8 characters, include upper and lower case, numerals, and special characters</div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
+    </div>
+    <div class="save-image-description save-image-description-last" ng-hide="parseVersion()">
+        <label class="input-control input-control-radio">Custom Security
+            <input type="radio" ng-model="selection.type" value="custom"/>
+            <div class="input-control-indicator"></div>
+        </label>
+        <br>
+        <div class="content">
+            The hardened OS image can be configured by following these steps:
+            <ol class="no-indent-ol left">
+                <li>Select packages to be removed from the deployable image.</li>
+                <li>Add MEC Updaters to be made available on the deployable image.</li>
+                <li>Choose the accounts that will have access on the deployable image.</li>
+                <!--<li>Set up file system hardening options.</li>-->
+            </ol>
         </div>
-    </div><!-- .row -->
-    <div class="row">
-        <span class="error-message">
-            {{error_message}}
-        </span>
     </div>
     <div class="row admin-modal-btn-row">
         <div class="col-md-6">
             <div class="cancel-button-md admin-modal-btn" ng-click="closeOSImageModal3()">Cancel</div>
         </div>
         <div class="col-md-6">
-            <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage4()" ng-class="{disabled: !connected}">Continue</div>
+            <div class="blue-button-md admin-modal-btn" ng-click="continueOSImage3()" ng-class="{disabled: !connected}">Continue</div>
         </div>
     </div><!-- .row -->
 </div><!-- /.admin-step -->
